@@ -19,8 +19,8 @@
         print-color-adjust: exact;
         margin: 0 !important;
         padding: 0 !important;
-        font-size: 9.5pt !important; /* Further reduced font size */
-        line-height: 1.15 !important;
+        font-size: 10.5pt !important; /* Increased font size */
+        line-height: 1.35 !important; /* Increased line height */
     }
     
     /* Main Layout Structure */
@@ -42,15 +42,15 @@
 
     /* Spacing Adjustments for 2 Pages */
     .mb-12, .mb-10, .mb-8 {
-        margin-bottom: 0.5rem !important;
+        margin-bottom: 1.5rem !important; /* Increased margin */
     }
     
     .mb-6, .mb-4 {
-        margin-bottom: 0.25rem !important;
+        margin-bottom: 0.75rem !important; /* Increased margin */
     }
 
     .space-y-10 > :not([hidden]) ~ :not([hidden]) {
-        margin-top: 0.75rem !important; /* Tighter job separation */
+        margin-top: 1.5rem !important; /* Increased job separation */
     }
 
     /* Force Grid Layouts (2 Columns) */
@@ -65,48 +65,52 @@
         flex-direction: row !important;
         align-items: center !important;
         justify-content: space-between !important;
-        margin-bottom: 0.5rem !important;
-        padding-bottom: 0.25rem !important;
+        margin-bottom: 1.5rem !important; /* Increased margin */
+        padding-bottom: 1rem !important; /* Increased padding */
         border-bottom: 2px solid #e5e7eb !important;
     }
     
     /* Typography Scaling */
     h1 { 
-        font-size: 18pt !important; 
-        line-height: 1.1 !important; 
-        margin-bottom: 0.1rem !important; 
+        font-size: 24pt !important; /* Increased size */
+        line-height: 1.2 !important; 
+        margin-bottom: 0.5rem !important; 
         color: #000 !important;
     }
     
     h2 { 
-        font-size: 11pt !important; 
-        margin-bottom: 0.25rem !important; 
+        font-size: 14pt !important; /* Increased size */
+        margin-bottom: 0.5rem !important; 
         color: #dc2626 !important; 
     }
     
     h3 { 
-        font-size: 10.5pt !important; 
-        margin-top: 0.5rem !important; 
-        margin-bottom: 0.25rem !important; 
+        font-size: 12pt !important; /* Increased size */
+        margin-top: 1rem !important; 
+        margin-bottom: 0.5rem !important; 
         color: #374151 !important;
         break-after: avoid !important;
     }
     
     h4 { 
-        font-size: 9.5pt !important; 
-        margin-bottom: 0.1rem !important; 
+        font-size: 11pt !important; /* Increased size */
+        margin-bottom: 0.25rem !important; 
         color: #000 !important;
     }
     
     p, li { 
-        margin-bottom: 0.1rem !important; 
+        margin-bottom: 0.25rem !important; 
         color: #1f2937 !important;
     }
     
     ul {
-        padding-left: 1.5rem !important; /* Increased indentation to prevent cutoff */
-        margin-left: 0.25rem !important; /* Add slight margin to push away from edge */
-        list-style-position: outside !important; /* Ensure bullets are outside the content box */
+        margin-left: 0 !important;
+        padding-left: 1.5rem !important;
+        list-style-position: outside !important;
+    }
+    
+    li {
+        padding-left: 0.5rem !important;
     }
     
     li::marker {
@@ -118,8 +122,8 @@
     .border-l, .border-l-2 {
         border-left-width: 2px !important;
         border-color: #e5e7eb !important;
-        margin-left: 0.5rem !important;
-        padding-left: 1.25rem !important;
+        margin-left: 2rem !important; /* Move timeline right */
+        padding-left: 2.5rem !important; /* More space between line and text */
     }
     
     /* Fix Timeline Dot Position */
@@ -197,6 +201,11 @@
     /* Ensure page breaks avoid breaking inside important elements */
     .break-inside-avoid, .group {
         break-inside: avoid !important;
+    }
+
+    /* Allow job entries to break to fill page 1 */
+    .space-y-10 > div {
+        break-inside: auto !important;
     }
     
     /* Allow sections to break across pages */
