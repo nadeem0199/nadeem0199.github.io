@@ -153,13 +153,13 @@
                     
                     <div class="relative z-10 space-y-8">
                         <!-- Command 1 -->
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2" id="cmd-block-1">
                             <div class="flex items-center gap-2 text-green-400">
                                 <span class="text-blue-400">➜</span>
                                 <span class="text-cyan-400">~</span>
-                                <span class="typewriter" data-delay="500">whoami</span>
+                                <span class="typewriter" id="typewriter-1">whoami</span>
                             </div>
-                            <div class="pl-4 border-l-2 border-gray-700" style="opacity: 0; animation: fadeIn 0.5s forwards 1.2s;">
+                            <div id="cmd-result-1" class="pl-4 border-l-2 border-gray-700 hidden">
                                 <h1 class="text-4xl md:text-6xl font-bold text-white mb-2 tracking-tight">
                                     M. Nadeem
                                 </h1>
@@ -168,26 +168,26 @@
                         </div>
 
                         <!-- Command 2 -->
-                        <div class="flex flex-col gap-2 reveal stagger-2">
+                        <div class="flex flex-col gap-2 hidden" id="cmd-block-2">
                             <div class="flex items-center gap-2 text-green-400">
                                 <span class="text-blue-400">➜</span>
                                 <span class="text-cyan-400">~</span>
-                                <span class="typewriter" data-delay="1500">cat mission.md</span>
+                                <span class="typewriter" id="typewriter-2">cat mission.md</span>
                             </div>
-                            <div class="pl-4 border-l-2 border-gray-700 text-gray-300 md:text-lg leading-relaxed max-w-3xl">
+                            <div id="cmd-result-2" class="pl-4 border-l-2 border-gray-700 text-gray-300 md:text-lg leading-relaxed max-w-3xl hidden">
                                 <p>Crafting robust <span class="text-purple-400">&lt;digital_architectures /&gt;</span> that scale.</p>
                                 <p class="mt-2">I help founders and enterprises build high-performance software solutions that drive business growth.</p>
                             </div>
                         </div>
 
                         <!-- Command 3 -->
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2 hidden" id="cmd-block-3">
                             <div class="flex items-center gap-2 text-green-400">
                                 <span class="text-blue-400">➜</span>
                                 <span class="text-cyan-400">~</span>
-                                <span class="typewriter" data-delay="4000">./init_collaboration.sh</span>
+                                <span class="typewriter" id="typewriter-3">./init_collaboration.sh</span>
                             </div>
-                            <div class="pl-4 pt-2 flex flex-wrap gap-4" style="opacity: 0; animation: fadeIn 0.5s forwards 5.7s;">
+                            <div id="cmd-result-3" class="pl-4 pt-2 flex flex-wrap gap-4 hidden">
                                 <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Project+Discussion&details=Discuss+API+design&add=nadeem0199@gmail.com&conferenceDataVersion=1" target="_blank" class="group relative px-6 py-3 bg-blue-600 text-white rounded font-medium hover:bg-blue-500 transition-all flex items-center gap-2 overflow-hidden">
                                     <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
                                     <i class="fas fa-calendar-check"></i>
@@ -201,7 +201,7 @@
                         </div>
                         
                         <!-- Active Line -->
-                        <div class="flex items-center gap-2 text-green-400 mt-4">
+                        <div id="active-line" class="flex items-center gap-2 text-green-400 mt-4 hidden">
                             <span class="text-blue-400">➜</span>
                             <span class="text-cyan-400">~</span>
                             <span class="animate-pulse">_</span>
@@ -211,7 +211,7 @@
             </div>
 
             <!-- Status Bar -->
-            <div class="mt-8 flex justify-center gap-6 text-xs md:text-sm font-mono text-gray-500" style="opacity: 0; animation: fadeIn 0.5s forwards 6.5s;">
+            <div id="status-bar" class="mt-8 flex justify-center gap-6 text-xs md:text-sm font-mono text-gray-500 hidden">
                 <div class="flex items-center gap-2">
                     <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     <span>System Online</span>
@@ -268,7 +268,7 @@
                             <i class="fas fa-code-branch text-blue-400"></i>
                             <p class="font-mono text-xs text-blue-400 uppercase tracking-wider">Git Workflow</p>
                         </div>
-                        <h3 class="text-2xl font-medium text-white leading-tight">Clean commits, seamless merges, and collaborative excellence.</h3>
+                        <h3 class="text-2xl font-serif text-white leading-tight">Clean commits, seamless merges, and collaborative excellence.</h3>
                     </div>
                 </div>
 
@@ -314,8 +314,7 @@
                                 <span class="text-[#da70d6]">[</span>
                                 <span class="text-[#ce9178]">'Vue.js'</span>, 
                                 <span class="text-[#ce9178]">'Inertia'</span>, 
-                                <span class="text-[#ce9178]">'Blade'</span>, 
-                                <span class="text-[#ce9178]">'Alpine'</span>
+                                <span class="text-[#ce9178]">'Blade'</span>,
                                 <span class="text-[#da70d6]">]</span>,
                             </div>
 
@@ -440,12 +439,6 @@
                 <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
                     <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
                     <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
-                    <i class="fas fa-mountain text-2xl text-gray-400 group-hover:text-blue-400 transition-colors"></i> 
-                    <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">Alpine.js</span>
-                </div>
-                <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
-                    <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
-                    <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
                     <i class="fas fa-wind text-2xl text-gray-400 group-hover:text-cyan-400 transition-colors"></i> 
                     <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">Tailwind CSS</span>
                 </div>
@@ -458,20 +451,8 @@
                 <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
                     <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
                     <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
-                    <i class="fab fa-react text-2xl text-gray-400 group-hover:text-blue-400 transition-colors"></i> 
-                    <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">React</span>
-                </div>
-                <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
-                    <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
-                    <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
                     <i class="fab fa-node-js text-2xl text-gray-400 group-hover:text-green-500 transition-colors"></i> 
                     <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">Node.js</span>
-                </div>
-                <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
-                    <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
-                    <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
-                    <i class="fas fa-code text-2xl text-gray-400 group-hover:text-blue-600 transition-colors"></i> 
-                    <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">TypeScript</span>
                 </div>
                 <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
                     <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
@@ -544,12 +525,6 @@
                 <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
                     <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
                     <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
-                    <i class="fas fa-mountain text-2xl text-gray-400 group-hover:text-blue-400 transition-colors"></i> 
-                    <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">Alpine.js</span>
-                </div>
-                <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
-                    <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
-                    <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
                     <i class="fas fa-wind text-2xl text-gray-400 group-hover:text-cyan-400 transition-colors"></i> 
                     <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">Tailwind CSS</span>
                 </div>
@@ -570,12 +545,6 @@
                     <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
                     <i class="fab fa-node-js text-2xl text-gray-400 group-hover:text-green-500 transition-colors"></i> 
                     <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">Node.js</span>
-                </div>
-                <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
-                    <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
-                    <div class="absolute -bottom-[1px] -left-[1px] w-2 h-2 border-b border-l border-white/20 rounded-bl-md group-hover:border-blue-400 transition-colors"></div>
-                    <i class="fas fa-code text-2xl text-gray-400 group-hover:text-blue-600 transition-colors"></i> 
-                    <span class="font-mono text-sm text-gray-400 group-hover:text-white transition-colors">TypeScript</span>
                 </div>
                 <div class="relative group flex items-center gap-3 px-6 py-3 bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/10 rounded-xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
                     <div class="absolute -top-[1px] -right-[1px] w-2 h-2 border-t border-r border-white/20 rounded-tr-md group-hover:border-blue-400 transition-colors"></div>
@@ -825,7 +794,9 @@
                 <!-- Service 2 -->
                 <div class="group py-12 border-b border-border flex flex-col md:flex-row gap-8 md:gap-20 transition-all hover:bg-surface/50 px-4 -mx-4 rounded-xl reveal stagger-2">
                     <div class="md:w-1/4">
-                        <span class="font-mono text-accent text-xs bg-accent/10 px-2 py-1 rounded">public function service_02()</span>
+                        <div class="font-mono text-xs bg-accent/10 px-2 py-1 rounded inline-block">
+                            <span class="text-purple-400">public function</span> <span class="text-blue-400">service_02</span>()
+                        </div>
                         <h3 class="text-2xl font-serif text-primary mt-4 group-hover:text-accent transition-colors">E-Commerce Ecosystems</h3>
                     </div>
                     <div class="md:w-2/4">
@@ -851,13 +822,15 @@
                 <!-- Service 3 -->
                 <div class="group py-12 border-b border-border flex flex-col md:flex-row gap-8 md:gap-20 transition-all hover:bg-surface/50 px-4 -mx-4 rounded-xl reveal stagger-3">
                     <div class="md:w-1/4">
-                        <span class="font-mono text-accent text-xs bg-accent/10 px-2 py-1 rounded">public function service_03()</span>
+                        <div class="font-mono text-xs bg-accent/10 px-2 py-1 rounded inline-block">
+                            <span class="text-purple-400">public function</span> <span class="text-blue-400">service_03</span>()
+                        </div>
                         <h3 class="text-2xl font-serif text-primary mt-4 group-hover:text-accent transition-colors">ERP & Automation</h3>
                     </div>
                     <div class="md:w-2/4">
                         <div class="text-secondary text-lg leading-relaxed pl-4 border-l-2 border-border group-hover:border-accent/50 transition-colors">
                              <span class="text-gray-400 text-sm font-mono block mb-1">// Description</span>
-                            Streamlining operations with custom Enterprise Resource Planning tools. I digitize manual workflows, build warehouse management systems (WMS), and create dashboards.
+                            Streamlining operations with custom Enterprise Resource Planning tools. I digitise manual workflows, build warehouse management systems (WMS), and create dashboards.
                         </div>
                         <div class="mt-6 font-mono text-sm">
                             <span class="text-purple-500 dark:text-purple-400">return</span> [
@@ -890,7 +863,7 @@
                         <div class="mt-6 font-mono text-sm">
                             <span class="text-purple-500 dark:text-purple-400">return</span> [
                             <span class="text-green-600 dark:text-green-400">'API Integrations'</span>,
-                            <span class="text-green-600 dark:text-green-400">'Legacy Modernization'</span>,
+                            <span class="text-green-600 dark:text-green-400">'Legacy Modernisation'</span>,
                             <span class="text-green-600 dark:text-green-400">'Cloud Native'</span>
                             ];
                         </div>
@@ -990,7 +963,7 @@
                             A comprehensive SaaS platform for investors to analyse Bol.com business performance. Features include product tracking, revenue monitoring, profit calculation, and automated Selenium-based data gathering.
                         </p>
                         <div class="font-mono text-sm mb-8 bg-surface/30 p-3 rounded border border-border/50">
-                            <span class="text-purple-500 dark:text-purple-400">const</span> <span class="text-blue-400">stack</span> = [
+                            <span class="text-blue-400">$stack</span> = [
                             <span class="text-green-600 dark:text-green-400">'Vue.js'</span>, 
                             <span class="text-green-600 dark:text-green-400">'Laravel'</span>, 
                             <span class="text-green-600 dark:text-green-400">'Selenium'</span>
@@ -1039,7 +1012,7 @@
                         <h4 class="text-2xl font-serif text-primary mb-3">Tiqs POS System</h4>
                         <p class="text-secondary mb-6">Complete POS system using Raspberry Pi with Fiscal Data Module (FDM) integration for tax compliance and remote server management.</p>
                         <div class="font-mono text-xs mt-auto bg-black/20 p-2 rounded border border-white/5">
-                            <span class="text-purple-400">const</span> <span class="text-blue-400">stack</span> = [<span class="text-green-400">'Raspberry Pi'</span>, <span class="text-green-400">'PHP'</span>];
+                            <span class="text-blue-400">$stack</span> = [<span class="text-green-400">'Raspberry Pi'</span>, <span class="text-green-400">'PHP'</span>];
                         </div>
                     </div>
 
@@ -1054,7 +1027,7 @@
                         <h4 class="text-2xl font-serif text-primary mb-3">Barrierah Integration</h4>
                         <p class="text-secondary mb-6">Seamless integration of Square API for products, inventory, and payments. Backend optimisation and server migration for performance.</p>
                         <div class="font-mono text-xs text-gray-400 mt-auto">
-                            [<span class="text-green-500">'Square API'</span>, <span class="text-green-500">'E-commerce'</span>]
+                            <span class="text-blue-400">$stack</span> = [<span class="text-green-500">'Square API'</span>, <span class="text-green-500">'E-commerce'</span>]
                         </div>
                     </div>
 
@@ -1084,7 +1057,7 @@
                         <h4 class="text-2xl font-serif text-primary mb-3">Event Alert System</h4>
                         <p class="text-secondary mb-6">Real-time alert iOS app backend using RSS feeds and crowd-sourced data. Integrated Twilio and Google Maps for location-based notifications.</p>
                         <div class="font-mono text-xs mt-auto bg-black/20 p-2 rounded border border-white/5">
-                            <span class="text-purple-400">const</span> <span class="text-blue-400">stack</span> = [<span class="text-green-400">'Twilio'</span>, <span class="text-green-400">'Google Maps'</span>];
+                            <span class="text-blue-400">$stack</span> = [<span class="text-green-400">'Twilio'</span>, <span class="text-green-400">'Google Maps'</span>];
                         </div>
                     </div>
 

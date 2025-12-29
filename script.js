@@ -247,33 +247,71 @@ document.addEventListener('DOMContentLoaded', () => {
         animateSprinkles();
     }
 
-    // Typing Effect
-    const typewriters = document.querySelectorAll('.typewriter');
-    
-    typewriters.forEach(el => {
-        const text = el.textContent;
-        el.textContent = '';
-        el.classList.remove('typing-cursor'); 
-        
-        const delay = parseInt(el.getAttribute('data-delay')) || 0;
-        
-        setTimeout(() => {
-            el.classList.add('typing-cursor');
-            let i = 0;
+    // Enhanced Terminal Typing Effect
+    const terminalSequence = async () => {
+        const type = async (elementId, speed = 50) => {
+            const element = document.getElementById(elementId);
+            if (!element) return;
             
-            function type() {
-                if (i < text.length) {
-                    el.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, Math.random() * 50 + 50); 
-                } else {
-                    setTimeout(() => {
-                        el.classList.remove('typing-cursor');
-                    }, 1000); 
-                }
+            const text = element.textContent.trim();
+            element.textContent = '';
+            element.classList.add('typing-cursor');
+            
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text.charAt(i);
+                // Randomize typing speed for realism
+                await new Promise(r => setTimeout(r, Math.random() * speed + 30));
             }
             
-            type();
-        }, delay);
-    });
+            element.classList.remove('typing-cursor');
+        };
+
+        const show = (elementId, animate = true) => {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            element.classList.remove('hidden');
+            if (animate) {
+                element.style.opacity = '0';
+                element.style.animation = 'fadeIn 0.5s forwards';
+            }
+        };
+
+        const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+        // Start Sequence
+        await wait(500);
+        
+        // Command 1
+        await type('typewriter-1');
+        await wait(300);
+        show('cmd-result-1');
+        
+        await wait(1000);
+        
+        // Command 2
+        show('cmd-block-2', false); // Show prompt immediately
+        await wait(500);
+        await type('typewriter-2');
+        await wait(300);
+        show('cmd-result-2');
+        
+        await wait(1500);
+        
+        // Command 3
+        show('cmd-block-3', false);
+        await wait(500);
+        await type('typewriter-3');
+        await wait(300);
+        show('cmd-result-3');
+
+        await wait(500);
+        show('active-line', false);
+        show('status-bar');
+    };
+
+    // Initialize if elements exist
+    if (document.getElementById('typewriter-1')) {
+        terminalSequence();
+    }
 });
