@@ -3,11 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume | Muhammad Nadeem</title>
+    <title>M. Nadeem | Resume</title>
+    <script>
+        // Immediate Theme Check to prevent FOUC
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const htmlElement = document.documentElement;
+            
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                htmlElement.classList.add('dark');
+                htmlElement.setAttribute('data-theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="resume.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -16,433 +33,608 @@
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                         serif: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        background: 'var(--bg-color)',
-                        surface: 'var(--card-bg)',
-                        primary: 'var(--text-color)',
-                        secondary: 'var(--text-muted)',
-                        accent: 'var(--accent-color)',
+                        // Modern Neutral/Zinc Scale for Resume
+                        page: {
+                            light: '#e5e7eb', // Gray-200 - Distinct background
+                            dark: '#020617',  // Slate-950
+                        },
+                        paper: {
+                            light: '#ffffff', // Pure White
+                            dark: '#0f172a',  // Slate-900
+                        },
+                        card: {
+                            light: '#f3f4f6', // Gray-100
+                            dark: '#1e293b',  // Slate-800
+                        },
+                        text: {
+                            main: { light: '#030712', dark: '#f8fafc' }, // Gray-950 (Sharp)
+                            muted: { light: '#4b5563', dark: '#94a3b8' }, // Gray-600 (Readable)
+                        },
+                        border: {
+                            light: '#d1d5db', // Gray-300
+                            dark: '#1e293b',  // Slate-800
+                        },
+                        accent: {
+                            DEFAULT: '#dc2626', // Red-600 (Laravel Red)
+                            dark: '#ef4444',    // Red-500 (Lighter for dark mode)
+                            subtle: 'rgba(220, 38, 38, 0.1)',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
                     }
                 }
             }
         }
     </script>
-    <!-- JSON-LD Structured Data for Machine Readability -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Muhammad Nadeem",
-      "jobTitle": "Senior Software Engineer & Solution Architect",
-      "url": "https://nadeem0199.github.io",
-      "email": "nadeem0199@gmail.com",
-      "telephone": "+92 321 4062327",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Lahore",
-        "addressCountry": "Pakistan"
-      },
-      "alumniOf": "University of Central Punjab",
-      "knowsAbout": ["PHP", "Laravel", "CodeIgniter", "MySQL", "JavaScript", "Vue.js", "AWS", "Docker", "API Integration"],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Orange Lynx IT"
-      }
-    }
+    <script>
+        // Handle Print Theme Switching (Ctrl+P, Cmd+P, or Button)
+        function setPrintTheme() {
+            const htmlElement = document.documentElement;
+            // Check if currently dark mode
+            if (htmlElement.classList.contains('dark')) {
+                // Store state to restore later
+                htmlElement.setAttribute('data-was-dark', 'true');
+                // Force light mode
+                htmlElement.classList.remove('dark');
+                htmlElement.setAttribute('data-theme', 'light');
+            }
+        }
+
+        function restoreTheme() {
+            const htmlElement = document.documentElement;
+            // Check if we need to restore dark mode
+            if (htmlElement.getAttribute('data-was-dark') === 'true') {
+                htmlElement.classList.add('dark');
+                htmlElement.setAttribute('data-theme', 'dark');
+                htmlElement.removeAttribute('data-was-dark');
+            }
+        }
+
+        // Standard Print Events
+        window.addEventListener('beforeprint', setPrintTheme);
+        window.addEventListener('afterprint', restoreTheme);
+
+        // Safari/older browsers support via matchMedia
+        if (window.matchMedia) {
+            const mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addEventListener('change', (mql) => {
+                if (mql.matches) {
+                    setPrintTheme();
+                } else {
+                    restoreTheme();
+                }
+            });
+        }
+
+        function handlePrint() {
+            window.print();
+        }
     </script>
 </head>
-<body class="antialiased min-h-screen">
+<body class="antialiased bg-page-light dark:bg-page-dark text-text-main-light dark:text-text-main-dark transition-colors duration-300 selection:bg-accent selection:text-white">
 
-    <!-- Floating Navbar -->
-    <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 no-print">
-        <nav class="nav-pill rounded-full px-2 py-2 flex items-center gap-1">
-            <a href="index.html" class="px-5 py-2 rounded-full text-sm font-medium text-secondary hover:text-primary hover:bg-surface transition-all">Home</a>
-            <a href="resume.html" class="px-5 py-2 rounded-full text-sm font-medium bg-surface text-primary shadow-sm transition-all">Resume</a>
-            <button onclick="window.print()" class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:text-primary hover:bg-surface transition-all ml-1" title="Print Resume">
-                <i class="fas fa-print"></i>
-            </button>
-            <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:text-primary hover:bg-surface transition-all ml-1">
-                <i class="fas fa-moon"></i>
-            </button>
-        </nav>
+    <!-- Ambient Background Effects -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <canvas id="matrix-rain" class="absolute inset-0 w-full h-full opacity-10 dark:opacity-20"></canvas>
+        <canvas id="code-sprinkles" class="absolute inset-0 w-full h-full opacity-30"></canvas>
+        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-accent/20 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-red-500/10 rounded-full blur-[120px]"></div>
+        
+        <!-- Floating Code Elements -->
+        <div class="absolute top-[20%] left-[10%] font-mono text-6xl text-accent/5 animate-float select-none font-bold">{ }</div>
+        <div class="absolute bottom-[30%] right-[10%] font-mono text-8xl text-red-500/5 animate-float select-none font-bold" style="animation-delay: 2s;">&lt;/&gt;</div>
+        <div class="absolute top-[40%] right-[20%] font-mono text-4xl text-orange-500/5 animate-float select-none" style="animation-delay: 1s;">function()</div>
+        <div class="absolute bottom-[20%] left-[20%] font-mono text-4xl text-red-500/5 animate-float select-none" style="animation-delay: 3s;">$ sudo</div>
     </div>
 
-    <!-- Resume Content -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        
-        <!-- Header -->
-        <header class="text-center mb-16 reveal">
-            <h1 class="text-5xl md:text-6xl font-serif mb-4">Muhammad Nadeem</h1>
-            <p class="text-xl text-secondary font-serif italic mb-8">Senior Software Engineer & Solution Architect</p>
-            
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap justify-center gap-4 mb-8 no-print">
-                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Project+Discussion&details=Discuss+API+design&add=nadeem0199@gmail.com&conferenceDataVersion=1" target="_blank" class="px-6 py-3 rounded-full bg-accent text-white font-medium hover:bg-accent/90 transition-all shadow-lg hover:shadow-accent/25 flex items-center gap-2">
-                    <i class="fas fa-calendar-check"></i> Hire Me
-                </a>
-                <button onclick="window.print()" class="px-6 py-3 rounded-full bg-surface border border-secondary/20 text-primary font-medium hover:bg-secondary/5 transition-all flex items-center gap-2">
-                    <i class="fas fa-print"></i> Print Resume
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 no-print" id="main-header">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="block h-10 w-auto transition-transform hover:scale-105">
+                <img src="img/logo-dark.png" class="h-full w-auto object-contain block dark:hidden" alt="M. Nadeem">
+                <img src="img/logo.png" class="h-full w-auto object-contain hidden dark:block" alt="M. Nadeem">
+            </a>
+            <nav class="hidden md:flex items-center gap-1 bg-white/70 dark:bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-border-light dark:border-border-dark shadow-sm">
+                <a href="index.html" class="px-5 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-main-light dark:hover:text-text-main-dark hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-all">Home</a>
+                <a href="index.html#work" class="px-5 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-main-light dark:hover:text-text-main-dark hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-all">Work</a>
+                <span class="px-5 py-2 text-sm font-medium text-accent dark:text-accent-dark bg-accent-subtle rounded-full transition-all">Resume</span>
+            </nav>
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle" class="w-10 h-10 rounded-full bg-white dark:bg-card-dark hover:bg-gray-100 dark:hover:bg-gray-700 border border-border-light dark:border-border-dark flex items-center justify-center text-text-muted-light dark:text-text-muted-dark transition-all shadow-sm">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button onclick="handlePrint()" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-red-700 text-white text-sm font-medium rounded-full transition-all shadow-lg shadow-red-500/20">
+                    <i class="fas fa-print"></i>
+                    <span>Print PDF</span>
                 </button>
             </div>
-            
-            <div class="flex flex-wrap justify-center gap-4 text-sm text-secondary">
-                <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-accent"></i> Lahore, Pakistan</span>
-                <a href="https://wa.me/923214062327?text=Hi%20Nadeem,%20I%20would%20like%20to%20discuss%20a%20project" target="_blank" class="flex items-center gap-2 hover:text-primary transition-colors"><i class="fab fa-whatsapp text-accent"></i> +92 321 4062327</a>
-                <a href="mailto:nadeem0199@gmail.com" class="flex items-center gap-2 hover:text-primary transition-colors"><i class="fas fa-envelope text-accent"></i> nadeem0199@gmail.com</a>
-                <a href="https://www.linkedin.com/in/nadeem0199" target="_blank" class="flex items-center gap-2 hover:text-primary transition-colors"><i class="fab fa-linkedin text-accent"></i> nadeem0199</a>
-                <a href="https://github.com/nadeem0199" target="_blank" class="flex items-center gap-2 hover:text-primary transition-colors"><i class="fab fa-github text-accent"></i> nadeem0199</a>
-            </div>
-        </header>
+        </div>
+    </header>
 
-        <div class="resume-grid grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <!-- Resume Container -->
+    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex justify-center">
+        <article class="resume-container w-full max-w-4xl bg-paper-light dark:bg-paper-dark border border-border-light dark:border-border-dark rounded-xl p-8 md:p-12 shadow-2xl shadow-gray-200/50 dark:shadow-black/50 relative overflow-hidden">
             
-            <!-- Main Content (Experience & Projects) - Order First for ATS -->
-            <div class="resume-main lg:col-span-8 space-y-12">
-                
-                <!-- Summary -->
-                <section class="reveal">
-                    <h2 class="text-2xl font-serif border-b border-secondary/20 pb-2 mb-6">Summary</h2>
-                    <p class="text-secondary leading-relaxed">
-                        I am a skilled Backend-Focused Full Stack Developer with extensive experience in designing, developing, and deploying scalable web applications. My expertise lies in building robust solutions such as ticket booking systems, SAAS platforms, ERP systems, and e-commerce applications. I specialize in backend development using PHP (Core, Laravel, CodeIgniter) and MySQL, complemented by proficiency in frontend technologies like JavaScript, HTML, CSS, and Bootstrap.
-                    </p>
-                    <p class="text-secondary leading-relaxed mt-4">
-                        I have extensive experience integrating and managing numerous third-party APIs, including Shopify, Mollie, Visma, and Bol API. I excel in drafting technical specifications, writing efficient code, deploying production-ready environments, and managing DevOps/cloud environments (AWS, Google Cloud, Docker).
-                    </p>
-                </section>
+            <!-- Top Decoration -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-orange-500 to-red-600"></div>
 
-                <!-- Professional Experience -->
-                <section>
-                    <h2 class="text-2xl font-serif border-b border-secondary/20 pb-2 mb-8 reveal">Professional Experience</h2>
+            <!-- Header -->
+            <header class="border-b border-border-light dark:border-border-dark pb-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold font-sans tracking-tight mb-2 text-text-main-light dark:text-text-main-dark">Muhammad Nadeem</h1>
+                    <h2 class="text-xl text-accent dark:text-accent-dark font-mono mb-4 font-medium">Backend-Focused Full Stack Developer</h2>
+                    <div class="flex flex-wrap gap-4 text-sm text-text-muted-light dark:text-text-muted-dark">
+                        <a href="mailto:nadeem0199@gmail.com" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
+                            <i class="fas fa-envelope"></i> nadeem0199@gmail.com
+                        </a>
+                        <a href="tel:+923214062327" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
+                            <i class="fas fa-phone"></i> +92 321 4062327
+                        </a>
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt"></i> Lahore, Pakistan
+                        </span>
+                        <a href="https://www.linkedin.com/in/nadeem0199" target="_blank" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
+                            <i class="fab fa-linkedin"></i> nadeem0199
+                        </a>
+                        <a href="https://github.com/nadeem0199" target="_blank" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
+                            <i class="fab fa-github"></i> nadeem0199
+                        </a>
+                    </div>
+                </div>
+                <div class="qr-code">
+                    <img src="img/QRCode.png" alt="LinkedIn QR" class="w-[157px] h-auto mix-blend-multiply dark:mix-blend-screen">
+                </div>
+            </header>
+
+            <!-- Summary -->
+            <section class="mb-10 break-inside-avoid">
+                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-4 flex items-center gap-2">
+                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Summary
+                </h3>
+                <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed text-justify">
+                    I am a skilled Backend-Focused Full Stack Developer with extensive experience in designing, developing, and deploying scalable web applications. My expertise lies in building robust solutions such as logistics platforms, ticket booking systems, SAAS platforms, ERP systems, and e-commerce applications. I specialize in backend development using PHP (Core, Laravel, CodeIgniter) and MySQL, complemented by proficiency in frontend technologies like JavaScript, HTML, CSS, and Bootstrap.
+                </p>
+                <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed text-justify mt-3">
+                    I have extensive experience integrating and managing numerous third-party APIs, including Shopify, Mollie, Visma, and Bol API. With a proven track record of handling the entire software development lifecycle, I excel in drafting technical specifications, writing efficient code, and deploying production-ready environments. My expertise extends to DevOps and cloud environments, including AWS, Google Cloud, and Docker.
+                </p>
+            </section>
+
+            <!-- Skills -->
+            <section class="mb-12 break-inside-avoid">
+                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-6 flex items-center gap-2">
+                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Technical Skills
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div class="group">
+                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-server text-accent dark:text-accent-dark w-4"></i> Backend
+                        </h4>
+                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">PHP (Core, CodeIgniter, Laravel), LAMP Stack, WebSockets, Real-time Systems</p>
+                    </div>
+                    <div class="group">
+                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-desktop text-accent dark:text-accent-dark w-4"></i> Frontend
+                        </h4>
+                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">HTML5, CSS3, JavaScript (ES6+), jQuery, Bootstrap, Chart.js, Vue.js</p>
+                    </div>
+                    <div class="group">
+                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-plug text-accent dark:text-accent-dark w-4"></i> API Integration
+                        </h4>
+                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">RESTful APIs, Google Maps, Twilio, Square, Visma, Lightspeed, CCVShop, Shopify, API2Cart, Mollie, Stripe, PayPal, DHL, PostNL, Bol API, Exact API</p>
+                    </div>
+                    <div class="group">
+                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-database text-accent dark:text-accent-dark w-4"></i> Database & Design
+                        </h4>
+                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">MySQL, SQL, MVC, Repository Pattern, Dependency Injection, Event Driven Architecture</p>
+                    </div>
+                    <div class="group">
+                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-cloud text-accent dark:text-accent-dark w-4"></i> DevOps & Cloud
+                        </h4>
+                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">AWS, Google Cloud, Docker, Git, CI/CD, Linux Server Management</p>
+                    </div>
+                    <div class="group">
+                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-tools text-accent dark:text-accent-dark w-4"></i> Other Tools
+                        </h4>
+                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">Jira, Composer, NPM, Webpack/Vite, Postman</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience -->
+            <section class="mb-12">
+                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-8 flex items-center gap-2">
+                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Professional Experience
+                </h3>
+
+                <div class="space-y-10 border-l border-border-light dark:border-border-dark ml-3 pl-8 relative">
                     
                     <!-- Job 1 -->
-                    <div class="mb-10 relative pl-8 border-l border-secondary/20 reveal stagger-1">
-                        <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-accent"></div>
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
-                            <h3 class="text-xl font-medium">Team Lead (Software Engineer)</h3>
-                            <span class="text-sm text-accent font-medium bg-surface px-3 py-1 rounded-full border border-secondary/10">Mar 2019 – Present</span>
+                    <div class="break-inside-avoid relative">
+                        <div class="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full border-4 border-paper-light dark:border-paper-dark bg-accent dark:bg-accent-dark"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Team Lead (Software Engineer)</h4>
+                            <span class="text-xs font-mono font-bold text-accent dark:text-accent-dark bg-accent-subtle px-3 py-1 rounded-full">Mar 2019 – Present</span>
                         </div>
-                        <div class="text-secondary font-medium mb-4">Orange Lynx IT (Remote) | The Hague, Netherlands</div>
-                        <p class="text-secondary mb-4">Led development teams to deliver high-quality web applications and SaaS solutions for international clients.</p>
-                        <ul class="list-disc list-outside ml-4 space-y-2 text-secondary text-sm">
-                            <li>Supervised and assigned tasks to development teams, ensuring efficient workflow.</li>
-                            <li>Designed and developed SaaS applications (WMS, E-commerce) for European clients.</li>
-                            <li>Integrated shopping platforms and APIs: Visma, ExactOnline, API2Cart, Mollie.</li>
-                            <li>Led POS system development using Raspberry Pi with FDM (Fiscal Data Module) integration.</li>
-                            <li>Built RESTful APIs for DHL, PostNL, and Stripe.</li>
-                            <li>Mentored junior developers and ensured code quality via Git and code reviews.</li>
-                            <li>Spearheaded a SaaS solution for bol.com investors (Sales tracking, Profit calc).</li>
-                            <li>Delivered custom e-commerce solutions improving client efficiency by 40%.</li>
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="text-md font-medium text-text-muted-light dark:text-text-muted-dark">Orange Lynx IT (Remote)</h5>
+                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark"><i class="fas fa-map-marker-alt mr-1"></i> The Hague, Netherlands</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark list-disc ml-4 marker:text-gray-400">
+                            <li>Led development teams to deliver high-quality web applications and SaaS solutions for international clients.</li>
+                            <li>Designed and developed SaaS applications, including warehouse management systems and e-commerce platforms.</li>
+                            <li>Integrated shopping platforms and APIs like Visma, ExactOnline, API2Cart, and Mollie.</li>
+                            <li>Led development of POS systems using Raspberry Pi, enabling tax compliance through FDM integration.</li>
+                            <li>Built and maintained RESTful APIs for platforms like DHL, PostNL, and Stripe.</li>
+                            <li>Spearheaded development of a SaaS solution for bol.com investors (sales tracking, profit calculation).</li>
+                            <li>Delivered custom e-commerce solutions improving operational efficiency by 40%.</li>
                         </ul>
                     </div>
 
                     <!-- Job 2 -->
-                    <div class="mb-10 relative pl-8 border-l border-secondary/20 reveal stagger-2">
-                        <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-secondary"></div>
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
-                            <h3 class="text-xl font-medium">Web Application Developer</h3>
-                            <span class="text-sm text-secondary font-medium bg-surface px-3 py-1 rounded-full border border-secondary/10">Feb 2017 – Dec 2018</span>
+                    <div class="break-inside-avoid relative">
+                        <div class="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full border-4 border-paper-light dark:border-paper-dark bg-gray-300 dark:bg-gray-700"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Web Application Developer</h4>
+                            <span class="text-xs font-mono font-bold text-text-muted-light dark:text-text-muted-dark bg-card-light dark:bg-card-dark px-3 py-1 rounded-full border border-border-light dark:border-border-dark">Feb 2017 – Dec 2018</span>
                         </div>
-                        <div class="text-secondary font-medium mb-4">Meticode | Lahore, Pakistan</div>
-                        <ul class="list-disc list-outside ml-4 space-y-2 text-secondary text-sm">
-                            <li>Developed web apps using HTML5, CSS, JS, Ajax, jQuery, SQL, Bootstrap, PHP, CodeIgniter, Laravel, OpenCart, WordPress.</li>
-                            <li><strong>Geo Time Vault (GTV):</strong> Authentication solution for photos and transactions.</li>
-                            <li>Developed Brain Storm World website for Transcription Services.</li>
-                            <li>Created a Photo Masking web application with facial recognition features.</li>
-                            <li>Developed Web Services (APIs) for Android/iOS applications.</li>
-                            <li>Built 2 websites for US Client Dr. Senator Saud Anwar hospitals.</li>
-                            <li>Completed a social networking website (Instagram-like) using Laravel.</li>
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="text-md font-medium text-text-muted-light dark:text-text-muted-dark">Meticode</h5>
+                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark"><i class="fas fa-map-marker-alt mr-1"></i> Lahore, Pakistan</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark list-disc ml-4 marker:text-gray-400">
+                            <li>Developed web applications using Core PHP, CodeIgniter, Laravel, and OpenCart.</li>
+                            <li>Created Geo Time Vault (GTV) for photo authentication and transaction proof.</li>
+                            <li>Developed Photo Masking web-based application with facial modification features.</li>
+                            <li>Built APIs for mobile applications and developed WordPress themes.</li>
+                            <li>Completed web-based Social Website (Instagram-like) using Laravel.</li>
+                            <li>Developed "Job portal" for WordPress with custom Admin panel.</li>
                         </ul>
                     </div>
 
                     <!-- Job 3 -->
-                    <div class="mb-10 relative pl-8 border-l border-secondary/20 reveal stagger-3">
-                        <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-secondary"></div>
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
-                            <h3 class="text-xl font-medium">PHP Developer & SQA</h3>
-                            <span class="text-sm text-secondary font-medium bg-surface px-3 py-1 rounded-full border border-secondary/10">Nov 2017 – Feb 2018</span>
+                    <div class="break-inside-avoid relative">
+                        <div class="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full border-4 border-paper-light dark:border-paper-dark bg-gray-300 dark:bg-gray-700"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">PHP Developer & SQA</h4>
+                            <span class="text-xs font-mono font-bold text-text-muted-light dark:text-text-muted-dark bg-card-light dark:bg-card-dark px-3 py-1 rounded-full border border-border-light dark:border-border-dark">Nov 2017 – Feb 2017</span>
                         </div>
-                        <div class="text-secondary font-medium mb-4">4 Tech World | Lahore, Pakistan</div>
-                        <ul class="list-disc list-outside ml-4 space-y-2 text-secondary text-sm">
-                            <li>Web development: HTML5, CSS, JS, PHP, Ajax, XML parsing, jQuery, SQL, Bootstrap, CodeIgniter.</li>
-                            <li>Mockups & Wire-framing using pencil and mind mapping tools.</li>
-                            <li>Database management (MySQL, Oracle).</li>
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="text-md font-medium text-text-muted-light dark:text-text-muted-dark">4 Tech World</h5>
+                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark"><i class="fas fa-map-marker-alt mr-1"></i> Lahore, Pakistan</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark list-disc ml-4 marker:text-gray-400">
+                            <li>Handled web development using HTML5, CSS, PHP, Ajax, jQuery, and CodeIgniter.</li>
+                            <li>Created mockups and wireframes using pencil and mind mapping tools.</li>
+                            <li>Managed MySQL and Oracle databases.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section class="mb-12">
+                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-6 flex items-center gap-2">
+                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Key Projects
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Moveflex.nl - Logistics Platform</h4>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Laravel</span>
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Google Maps</span>
+                        </div>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Architected an "Uber-like" logistics platform with real-time tracking, automated dispatching, and complex pricing algorithms.</p>
+                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
+                            <li>Real-time tracking & automated dispatching.</li>
+                            <li>Complex pricing algorithms.</li>
+                            <li>High scalability architecture.</li>
                         </ul>
                     </div>
 
-                    <!-- Job 4 -->
-                    <div class="mb-10 relative pl-8 border-l border-secondary/20 reveal stagger-3">
-                        <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-secondary"></div>
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
-                            <h3 class="text-xl font-medium">PHP Internship</h3>
-                            <span class="text-sm text-secondary font-medium bg-surface px-3 py-1 rounded-full border border-secondary/10">Aug 2015 – Nov 2017</span>
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">SAAS Application for Bol.com Investors</h4>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Laravel</span>
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Vue.js</span>
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Selenium</span>
                         </div>
-                        <div class="text-secondary font-medium mb-4">Seena Studio | Lahore, Pakistan</div>
-                        <ul class="list-disc list-outside ml-4 space-y-2 text-secondary text-sm">
-                            <li>Worked with Web HTML, CSS, Twilio API, XML Parser.</li>
-                            <li>Implemented Web APIs for mobile communication.</li>
-                            <li>Integrated Apple Push Notifications and Google Maps API.</li>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">SAAS platform for investors to analyze Bol.com business, featuring product tracking and profit calculation.</p>
+                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
+                            <li>Real-time product tracking using Selenium.</li>
+                            <li>Stripe integration for subscription management.</li>
                         </ul>
                     </div>
-                </section>
 
-                <!-- Detailed Projects -->
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Brincr - Warehouse Management</h4>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">CodeIgniter</span>
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">REST APIs</span>
+                        </div>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Warehouse management SAAS platform integrating multiple e-commerce platforms (Shopify, Amazon, Magento).</p>
+                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
+                            <li>Developed custom CCVShop app.</li>
+                            <li>Implemented robust API integrations.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Tiqs - POS System</h4>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Raspberry Pi</span>
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Python/PHP</span>
+                        </div>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">POS system integrated with Printer services and Fiscal Data Module (FDM) for tax compliance.</p>
+                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
+                            <li>FDM integration for tax compliance.</li>
+                            <li>Remote server management & automation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Barrierah - Fintech</h4>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Square API</span>
+                        </div>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Seamless integration of Square API for products, inventory, and payments.</p>
+                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
+                            <li>Square API integration (Payments/Inventory).</li>
+                            <li>Backend performance optimization.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Event Alert System</h4>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Twilio</span>
+                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Google Maps</span>
+                        </div>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Real-time alert iOS app backend using RSS feeds and crowd-sourced data.</p>
+                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
+                            <li>Real-time location-based notifications.</li>
+                            <li>Twilio & Google Maps integration.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="mb-10 break-inside-avoid">
+                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-6 flex items-center gap-2">
+                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Education
+                </h3>
+                <div class="flex justify-between items-start border-l-2 border-accent dark:border-accent-dark pl-4">
+                    <div>
+                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark">BS Computer Science</h4>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark">University of Central Punjab</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interests & Languages -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 break-inside-avoid border-t border-border-light dark:border-border-dark pt-8">
                 <section>
-                    <h2 class="text-2xl font-serif border-b border-secondary/20 pb-2 mb-8 reveal">Key Projects</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Project 0: Moveflex (Featured) -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group border-accent/30 shadow-md reveal stagger-1">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-truck-fast"></i>
-                                </div>
-                                <span class="text-xs font-medium text-white bg-accent px-2 py-1 rounded-full shadow-sm">Featured</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">Moveflex.nl - Logistics Platform</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Laravel</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Real-time Maps</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">System Architecture</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Architected an "Uber-like" logistics platform for item movement, pickup, and drop-off. Manages a large ecosystem of partners and workers with complex real-time coordination. Features include automated dispatching, live tracking, and scalable team management.
-                            </p>
-                        </div>
-
-                        <!-- Project 1 -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group reveal stagger-2">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <span class="text-xs font-medium text-secondary bg-surface px-2 py-1 rounded-full border border-border">SaaS</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">SAAS for Bol.com Investors</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Laravel</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Vue.js</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Selenium</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Developed a SAAS platform for investors to analyze/manage Bol.com business. Features include product tracking, revenue monitoring, and profit calculation. Created a Chrome extension and used Selenium for automation.
-                            </p>
-                        </div>
-
-                        <!-- Project 2 -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group reveal stagger-3">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-warehouse"></i>
-                                </div>
-                                <span class="text-xs font-medium text-secondary bg-surface px-2 py-1 rounded-full border border-border">WMS</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">Brincr - Warehouse Management</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">CodeIgniter</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">MySQL</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">APIs</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Integrated e-commerce platforms (Shopify, Amazon, Magento) and services (ExactOnline, API2Cart, Mollie) into a WMS. Developed a custom CCVShop app and optimised workflows.
-                            </p>
-                        </div>
-
-                        <!-- Project 3 -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group reveal stagger-3">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-cash-register"></i>
-                                </div>
-                                <span class="text-xs font-medium text-secondary bg-surface px-2 py-1 rounded-full border border-border">IoT / POS</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">Tiqs - POS System with R-Pi</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Raspberry Pi</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">PHP</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">IoT</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Designed a complete POS system using Raspberry Pi. Integrated Printer services, Fiscal Data Module (FDM) for tax compliance, and a centralized server for remote management.
-                            </p>
-                        </div>
-
-                        <!-- Project 4 -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group reveal stagger-1">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                                <span class="text-xs font-medium text-secondary bg-surface px-2 py-1 rounded-full border border-border">Fintech</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">Barrierah - Square API Integration</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Square API</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">E-commerce</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Backend</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Integrated Square API to fetch products, variations, categories, taxes, and implemented Square Payment API. Assisted in migrating the domain to a new custom server for enhanced performance.
-                            </p>
-                        </div>
-
-                        <!-- Project 5 -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group reveal stagger-2">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-store"></i>
-                                </div>
-                                <span class="text-xs font-medium text-secondary bg-surface px-2 py-1 rounded-full border border-border">E-commerce</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">Classified Website</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Dynamic Subdomains</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Platform</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Developed a platform for buying and selling with features for shopkeepers to create their own webshops on subdomains dynamically, enabling personalized store fronts.
-                            </p>
-                        </div>
-
-                        <!-- Project 6 -->
-                        <div class="glass-card p-6 rounded-2xl flex flex-col h-full hover:border-accent/50 transition-colors group reveal stagger-3">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-bell"></i>
-                                </div>
-                                <span class="text-xs font-medium text-secondary bg-surface px-2 py-1 rounded-full border border-border">Build API</span>
-                            </div>
-                            <h3 class="text-xl font-serif mb-3 text-primary">Real-Time Event Alert System</h3>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">iOS</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Google Maps API</span>
-                                <span class="px-2 py-1 text-[10px] uppercase tracking-wider rounded bg-background border border-border text-secondary font-medium">Twilio</span>
-                            </div>
-                            <p class="text-secondary text-sm leading-relaxed flex-grow">
-                                Created an iOS application to alert users about affected areas using RSS feeds and crowd-sourced data. Integrated Google Maps API, Twilio API, and Apple Push Notifications.
-                            </p>
-                        </div>
-                    </div>
+                    <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-4 flex items-center gap-2">
+                        <i class="fas fa-language text-accent dark:text-accent-dark"></i> Languages
+                    </h3>
+                    <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark">
+                        <li class="flex justify-between items-center border-b border-border-light dark:border-border-dark pb-1"><span>English</span> <span class="text-text-main-light dark:text-text-main-dark font-medium">Professional</span></li>
+                        <li class="flex justify-between items-center border-b border-border-light dark:border-border-dark pb-1"><span>Urdu</span> <span class="text-text-main-light dark:text-text-main-dark font-medium">Native</span></li>
+                        <li class="flex justify-between items-center border-b border-border-light dark:border-border-dark pb-1"><span>Punjabi</span> <span class="text-text-main-light dark:text-text-main-dark font-medium">Native</span></li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-4 flex items-center gap-2">
+                        <i class="fas fa-heart text-accent dark:text-accent-dark"></i> Interests
+                    </h3>
+                    <ul class="list-disc list-outside ml-5 text-sm text-text-muted-light dark:text-text-muted-dark space-y-1 marker:text-gray-400">
+                        <li>Exploring nature and outdoor experiences</li>
+                        <li>Mechanical and electrical DIY projects</li>
+                        <li>Software innovation & optimization</li>
+                    </ul>
                 </section>
             </div>
 
-            <!-- Sidebar (Skills & Education) - Visually Left via order-first on desktop -->
-            <aside class="lg:col-span-4 lg:order-first space-y-10">
-                
-                <!-- Technical Skills -->
-                <div class="glass-card p-6 rounded-2xl reveal">
-                    <h2 class="text-xl font-serif mb-6 flex items-center gap-2">
-                        <i class="fas fa-code text-accent"></i> Technical Skills
-                    </h2>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <h3 class="text-sm font-medium text-primary mb-2">Backend & Architecture</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Laravel Ecosystem</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">PHP 8+</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Microservices</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Web Architecture</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">LLM Integration</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">RESTful / GraphQL</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Node.js</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-medium text-primary mb-2">Frontend</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Vue.js / Nuxt</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">JavaScript (ES6+)</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Tailwind CSS</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Alpine.js</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Responsive Design</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-medium text-primary mb-2">API Integrations</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">OpenAI / Claude</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Shopify</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Mollie / Stripe</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Google Maps Platform</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Visma / Bol.com</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Logistics APIs</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-medium text-primary mb-2">DevOps & Tools</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">AWS / GCP</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Docker</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">CI/CD Pipelines</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Git / GitHub Actions</span>
-                                <span class="px-2 py-1 text-xs rounded bg-surface border border-secondary/20 text-secondary">Redis / Queues</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Education -->
-                <div class="glass-card p-6 rounded-2xl reveal stagger-1">
-                    <h2 class="text-xl font-serif mb-6 flex items-center gap-2">
-                        <i class="fas fa-graduation-cap text-accent"></i> Education
-                    </h2>
-                    <div class="space-y-6">
-                        <div>
-                            <h3 class="text-sm font-medium text-primary">BS Computer Science</h3>
-                            <p class="text-xs text-secondary">University of Central Punjab</p>
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-medium text-primary">Intermediate</h3>
-                            <p class="text-xs text-secondary">Garrison College for Boys, Lahore</p>
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-medium text-primary">Matriculation</h3>
-                            <p class="text-xs text-secondary">FG Abid Majeed High School, Lahore</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Languages -->
-                <div class="glass-card p-6 rounded-2xl reveal stagger-2">
-                    <h2 class="text-xl font-serif mb-6 flex items-center gap-2">
-                        <i class="fas fa-language text-accent"></i> Languages
-                    </h2>
-                    <ul class="space-y-2 text-sm text-secondary">
-                        <li class="flex justify-between"><span>English</span> <span class="text-primary">Professional</span></li>
-                        <li class="flex justify-between"><span>Urdu</span> <span class="text-primary">Native</span></li>
-                        <li class="flex justify-between"><span>Punjabi</span> <span class="text-primary">Native</span></li>
-                        <li class="flex justify-between"><span>Hindi</span> <span class="text-primary">Verbal</span></li>
-                    </ul>
-                </div>
-                
-                <!-- Interests -->
-                <div class="glass-card p-6 rounded-2xl reveal stagger-3">
-                    <h2 class="text-xl font-serif mb-6 flex items-center gap-2">
-                        <i class="fas fa-heart text-accent"></i> Interests
-                    </h2>
-                    <ul class="space-y-2 text-sm text-secondary list-disc list-inside">
-                        <li>Nature exploration</li>
-                        <li>DIY Mechanical/Electrical</li>
-                        <li>Software Innovation</li>
-                    </ul>
-                </div>
-
-            </aside>
-        </div>
-
-        <!-- QR Code Footer -->
-        <div class="mt-20 border-t border-secondary/20 pt-10 flex flex-col items-center justify-center">
-            <div class="p-2 bg-white rounded-xl shadow-lg border border-border mb-4">
-                <img src="img/QRCode.png" alt="Scan to Connect" class="w-64 h-64 object-contain">
-            </div>
-            <p class="text-xs text-secondary uppercase tracking-widest font-medium">Scan for Portfolio</p>
-        </div>
+        </article>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme Toggling Logic
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+            
+            // Sync icon with current state (set by head script)
+            const isDark = htmlElement.classList.contains('dark');
+            updateToggleIcon(isDark);
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const isDark = htmlElement.classList.contains('dark');
+                    if (isDark) {
+                        htmlElement.classList.remove('dark');
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        updateToggleIcon(false);
+                    } else {
+                        htmlElement.classList.add('dark');
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        updateToggleIcon(true);
+                    }
+                });
+            }
+
+            function updateToggleIcon(isDark) {
+                if (!themeToggleBtn) return;
+                const icon = themeToggleBtn.querySelector('i');
+                if (icon) {
+                    if (isDark) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                }
+            }
+
+            // Matrix Rain Effect
+            const canvas = document.getElementById('matrix-rain');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let width = canvas.width = window.innerWidth;
+                let height = canvas.height = window.innerHeight;
+                
+                const chars = '0123456789ABCDEF@#$%&<>?/|{}[]';
+                const charArray = chars.split('');
+                const fontSize = 14;
+                const columns = width / fontSize;
+                
+                const drops = [];
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = 1;
+                }
+                
+                function draw() {
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    ctx.globalCompositeOperation = 'source-over';
+                    
+                    // Use Laravel Red
+                    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#dc2626';
+                    ctx.fillStyle = accentColor;
+                    ctx.font = fontSize + 'px monospace';
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = charArray[Math.floor(Math.random() * charArray.length)];
+                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                        
+                        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        drops[i]++;
+                    }
+                }
+                
+                window.addEventListener('resize', () => {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight;
+                });
+                
+                setInterval(draw, 50);
+            }
+
+            // Code Sprinkles Effect
+            const sprinkleCanvas = document.getElementById('code-sprinkles');
+            if (sprinkleCanvas) {
+                const ctx = sprinkleCanvas.getContext('2d');
+                let width = sprinkleCanvas.width = window.innerWidth;
+                let height = sprinkleCanvas.height = window.innerHeight;
+
+                const symbols = ['<?php', '->', '::', '=>', 'use', 'class', 'public', '$this', 'dd()', 'Route', '@if', '{{ }}', '[]', ';'];
+                const particles = [];
+                const particleCount = 40;
+
+                class Particle {
+                    constructor() {
+                        this.reset();
+                    }
+
+                    reset() {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() * height;
+                        this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                        this.size = Math.random() * 14 + 10;
+                        this.speedX = (Math.random() - 0.5) * 0.5;
+                        this.speedY = (Math.random() - 0.5) * 0.5;
+                        this.opacity = Math.random() * 0.5 + 0.1;
+                        this.fadeSpeed = Math.random() * 0.01 + 0.005;
+                        this.fadingOut = Math.random() > 0.5;
+                        this.color = this.getRandomColor();
+                    }
+
+                    getRandomColor() {
+                        const colors = [
+                            'rgba(220, 38, 38, ',  // Laravel Red (600)
+                            'rgba(239, 68, 68, ',  // Red-500
+                            'rgba(249, 115, 22, ', // Orange-500
+                            'rgba(255, 255, 255, ' // White
+                        ];
+                        return colors[Math.floor(Math.random() * colors.length)];
+                    }
+
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+
+                        if (this.fadingOut) {
+                            this.opacity -= this.fadeSpeed;
+                            if (this.opacity <= 0) {
+                                this.opacity = 0;
+                                this.fadingOut = false;
+                                this.reset();
+                            }
+                        } else {
+                            this.opacity += this.fadeSpeed;
+                            if (this.opacity >= 0.6) {
+                                this.fadingOut = true;
+                            }
+                        }
+
+                        // Wrap around
+                        if (this.x > width) this.x = 0;
+                        if (this.x < 0) this.x = width;
+                        if (this.y > height) this.y = 0;
+                        if (this.y < 0) this.y = height;
+                    }
+
+                    draw() {
+                        ctx.font = `bold ${this.size}px "JetBrains Mono", monospace`;
+                        ctx.fillStyle = this.color + this.opacity + ')';
+                        ctx.fillText(this.symbol, this.x, this.y);
+                    }
+                }
+
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+
+                function animateSprinkles() {
+                    ctx.clearRect(0, 0, width, height);
+                    particles.forEach(p => {
+                        p.update();
+                        p.draw();
+                    });
+                    requestAnimationFrame(animateSprinkles);
+                }
+
+                window.addEventListener('resize', () => {
+                    width = sprinkleCanvas.width = window.innerWidth;
+                    height = sprinkleCanvas.height = window.innerHeight;
+                });
+
+                animateSprinkles();
+            }
+        });
+    </script>
 </body>
 </html>
