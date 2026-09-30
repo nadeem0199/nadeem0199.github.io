@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M. Nadeem | Resume</title>
+    <meta name="description" content="Muhammad Nadeem - Senior Software Engineer & Backend Architect Resume / CV. ">
+    <meta name="author" content="Muhammad Nadeem">
+    <title>Muhammad Nadeem | Curriculum Vitae</title>
+
+    <!-- Immediate Theme Check to prevent FOUC -->
     <script>
-        // Immediate Theme Check to prevent FOUC
-        (function() {
+        (function () {
             const savedTheme = localStorage.getItem('theme');
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const htmlElement = document.documentElement;
-            
+
             if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
                 htmlElement.classList.add('dark');
                 htmlElement.setAttribute('data-theme', 'dark');
@@ -20,71 +24,45 @@
             }
         })();
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+
+    <!-- Tailwind CSS & Custom Resume Design System -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="resume.css">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        serif: ['Plus Jakarta Sans', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        // Modern Neutral/Zinc Scale for Resume
-                        page: {
-                            light: '#e5e7eb', // Gray-200 - Distinct background
-                            dark: '#020617',  // Slate-950
-                        },
-                        paper: {
-                            light: '#ffffff', // Pure White
-                            dark: '#0f172a',  // Slate-900
-                        },
-                        card: {
-                            light: '#f3f4f6', // Gray-100
-                            dark: '#1e293b',  // Slate-800
-                        },
-                        text: {
-                            main: { light: '#030712', dark: '#f8fafc' }, // Gray-950 (Sharp)
-                            muted: { light: '#4b5563', dark: '#94a3b8' }, // Gray-600 (Readable)
-                        },
-                        border: {
-                            light: '#d1d5db', // Gray-300
-                            dark: '#1e293b',  // Slate-800
-                        },
                         accent: {
-                            DEFAULT: '#dc2626', // Red-600 (Laravel Red)
-                            dark: '#ef4444',    // Red-500 (Lighter for dark mode)
-                            subtle: 'rgba(220, 38, 38, 0.1)',
-                        }
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
+                            DEFAULT: '#dc2626',
+                            dark: '#ef4444',
                         }
                     }
                 }
             }
         }
     </script>
+
+    <!-- Print Theme Management -->
     <script>
-        // Handle Print Theme Switching (Ctrl+P, Cmd+P, or Button)
         function setPrintTheme() {
             const htmlElement = document.documentElement;
-            // Check if currently dark mode
             if (htmlElement.classList.contains('dark')) {
-                // Store state to restore later
                 htmlElement.setAttribute('data-was-dark', 'true');
-                // Force light mode
                 htmlElement.classList.remove('dark');
                 htmlElement.setAttribute('data-theme', 'light');
             }
@@ -92,7 +70,6 @@
 
         function restoreTheme() {
             const htmlElement = document.documentElement;
-            // Check if we need to restore dark mode
             if (htmlElement.getAttribute('data-was-dark') === 'true') {
                 htmlElement.classList.add('dark');
                 htmlElement.setAttribute('data-theme', 'dark');
@@ -100,11 +77,9 @@
             }
         }
 
-        // Standard Print Events
         window.addEventListener('beforeprint', setPrintTheme);
         window.addEventListener('afterprint', restoreTheme);
 
-        // Safari/older browsers support via matchMedia
         if (window.matchMedia) {
             const mediaQueryList = window.matchMedia('print');
             mediaQueryList.addEventListener('change', (mql) => {
@@ -116,369 +91,664 @@
             });
         }
 
-        function handlePrint() {
+        function handlePrintCV() {
             window.print();
         }
     </script>
 </head>
-<body class="antialiased bg-page-light dark:bg-page-dark text-text-main-light dark:text-text-main-dark transition-colors duration-300 selection:bg-accent selection:text-white">
 
-    <!-- Ambient Background Effects -->
-    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+<body class="selection:bg-red-600 selection:text-white">
+
+    <!-- Screen Ambient Background (Hidden in Print) -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden no-print">
         <canvas id="matrix-rain" class="absolute inset-0 w-full h-full opacity-10 dark:opacity-20"></canvas>
-        <canvas id="code-sprinkles" class="absolute inset-0 w-full h-full opacity-30"></canvas>
-        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-accent/20 rounded-full blur-[120px] animate-pulse"></div>
-        <div class="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-red-500/10 rounded-full blur-[120px]"></div>
-        
-        <!-- Floating Code Elements -->
-        <div class="absolute top-[20%] left-[10%] font-mono text-6xl text-accent/5 animate-float select-none font-bold">{ }</div>
-        <div class="absolute bottom-[30%] right-[10%] font-mono text-8xl text-red-500/5 animate-float select-none font-bold" style="animation-delay: 2s;">&lt;/&gt;</div>
-        <div class="absolute top-[40%] right-[20%] font-mono text-4xl text-orange-500/5 animate-float select-none" style="animation-delay: 1s;">function()</div>
-        <div class="absolute bottom-[20%] left-[20%] font-mono text-4xl text-red-500/5 animate-float select-none" style="animation-delay: 3s;">$ sudo</div>
+        <canvas id="code-sprinkles" class="absolute inset-0 w-full h-full opacity-25 dark:opacity-35"></canvas>
+        <div
+            class="ambient-glow absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-red-600/10 dark:bg-red-600/15 rounded-full blur-[130px]">
+        </div>
+        <div
+            class="ambient-glow absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-600/5 dark:bg-red-900/10 rounded-full blur-[140px]">
+        </div>
     </div>
 
-    <!-- Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 no-print" id="main-header">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="index.html" class="block h-10 w-auto transition-transform hover:scale-105">
-                <img src="img/logo-dark.png" class="h-full w-auto object-contain block dark:hidden" alt="M. Nadeem">
-                <img src="img/logo.png" class="h-full w-auto object-contain hidden dark:block" alt="M. Nadeem">
-            </a>
-            <nav class="hidden md:flex items-center gap-1 bg-white/70 dark:bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-border-light dark:border-border-dark shadow-sm">
-                <a href="index.html" class="px-5 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-main-light dark:hover:text-text-main-dark hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-all">Home</a>
-                <a href="index.html#work" class="px-5 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-main-light dark:hover:text-text-main-dark hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-all">Work</a>
-                <span class="px-5 py-2 text-sm font-medium text-accent dark:text-accent-dark bg-accent-subtle rounded-full transition-all">Resume</span>
-            </nav>
+    <!-- Screen Top Action Bar (Hidden in Print) -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3 transition-all duration-300 no-print" id="top-nav">
+        <div
+            class="max-w-5xl mx-auto flex items-center justify-between bg-white/85 dark:bg-gray-900/85 backdrop-blur-md px-4 sm:px-6 py-2.5 rounded-full border border-gray-200 dark:border-gray-800 shadow-lg shadow-black/5">
+
+            <!-- Left: Logo & Back Link -->
             <div class="flex items-center gap-3">
-                <button id="theme-toggle" class="w-10 h-10 rounded-full bg-white dark:bg-card-dark hover:bg-gray-100 dark:hover:bg-gray-700 border border-border-light dark:border-border-dark flex items-center justify-center text-text-muted-light dark:text-text-muted-dark transition-all shadow-sm">
+                <a href="index.html"
+                    class="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-sm hover:opacity-80 transition-opacity">
+                    <img src="img/logo-dark.png" class="h-7 w-auto object-contain block dark:hidden" alt="M. Nadeem">
+                    <img src="img/logo.png" class="h-7 w-auto object-contain hidden dark:block" alt="M. Nadeem">
+                    <span class="hidden sm:inline-block font-mono text-xs text-gray-500 dark:text-gray-400">/
+                        portfolio</span>
+                </a>
+            </div>
+
+            <!-- Center: Navigation Links -->
+            <nav
+                class="hidden md:flex items-center gap-1 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full text-xs font-medium">
+                <a href="index.html"
+                    class="px-3 py-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-full transition-all">Home</a>
+                <a href="index.html#work"
+                    class="px-3 py-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-full transition-all">Projects</a>
+                <a href="index.html#about"
+                    class="px-3 py-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-full transition-all">About</a>
+                <span
+                    class="px-3 py-1 text-red-600 dark:text-red-400 font-semibold bg-white dark:bg-gray-900 rounded-full shadow-sm">Resume
+                </span>
+            </nav>
+
+            <!-- Right: Action Buttons (Print CV + Theme Toggle + WhatsApp) -->
+            <div class="flex items-center gap-2 sm:gap-3">
+
+                <!-- Print CV Button -->
+                <button onclick="handlePrintCV()" id="print-btn" title="Print Standard CV or Save PDF (Ctrl+P / ⌘P)"
+                    class="print-pulse flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold rounded-full shadow-md shadow-red-600/20 transition-all hover:scale-105 active:scale-95 cursor-pointer">
+                    <i class="fas fa-print"></i>
+                    <span>Print CV / PDF</span>
+                    <span
+                        class="hidden lg:inline-block text-[10px] bg-red-800/60 text-red-100 px-1.5 py-0.5 rounded font-mono">⌘P</span>
+                </button>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme"
+                    class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-all">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button onclick="handlePrint()" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-red-700 text-white text-sm font-medium rounded-full transition-all shadow-lg shadow-red-500/20">
-                    <i class="fas fa-print"></i>
-                    <span>Print PDF</span>
-                </button>
+
+                <!-- Direct WhatsApp Contact -->
+                <a href="https://wa.me/923214062327" target="_blank"
+                    class="hidden sm:flex items-center justify-center w-9 h-9 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm transition-all"
+                    title="WhatsApp Chat">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Resume Container -->
-    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex justify-center">
-        <article class="resume-container w-full max-w-4xl bg-paper-light dark:bg-paper-dark border border-border-light dark:border-border-dark rounded-xl p-8 md:p-12 shadow-2xl shadow-gray-200/50 dark:shadow-black/50 relative overflow-hidden">
-            
-            <!-- Top Decoration -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-orange-500 to-red-600"></div>
+    <!-- Main Resume Container (Standard International Layout) -->
+    <main class="pt-24 sm:pt-28 pb-16 px-3 sm:px-6 lg:px-8 min-h-screen flex justify-center">
+        <article class="resume-paper w-full max-w-4xl rounded-2xl p-6 sm:p-10 md:p-12 relative">
 
-            <!-- Header -->
-            <header class="border-b border-border-light dark:border-border-dark pb-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-bold font-sans tracking-tight mb-2 text-text-main-light dark:text-text-main-dark">Muhammad Nadeem</h1>
-                    <h2 class="text-xl text-accent dark:text-accent-dark font-mono mb-4 font-medium">Backend-Focused Full Stack Developer</h2>
-                    <div class="flex flex-wrap gap-4 text-sm text-text-muted-light dark:text-text-muted-dark">
-                        <a href="mailto:nadeem0199@gmail.com" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
-                            <i class="fas fa-envelope"></i> nadeem0199@gmail.com
-                        </a>
-                        <a href="tel:+923214062327" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
-                            <i class="fas fa-phone"></i> +92 321 4062327
-                        </a>
-                        <span class="flex items-center gap-2">
-                            <i class="fas fa-map-marker-alt"></i> Lahore, Pakistan
-                        </span>
-                        <a href="https://www.linkedin.com/in/nadeem0199" target="_blank" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
-                            <i class="fab fa-linkedin"></i> nadeem0199
-                        </a>
-                        <a href="https://github.com/nadeem0199" target="_blank" class="flex items-center gap-2 hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">
-                            <i class="fab fa-github"></i> nadeem0199
-                        </a>
-                    </div>
-                </div>
-                <div class="qr-code">
-                    <img src="img/QRCode.png" alt="LinkedIn QR" class="w-[157px] h-auto mix-blend-multiply dark:mix-blend-screen">
+            <!-- Top Decorative Accent Bar (Screen Only) -->
+            <div
+                class="screen-only-decor absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-red-600 via-rose-500 to-red-600 rounded-t-2xl">
+            </div>
+
+            <!-- ==========================================================================
+                 1. HEADER & CONTACT INFORMATION (Standard International Format)
+                 ========================================================================== -->
+            <header class="resume-header border-b border-gray-200 dark:border-gray-800 pb-4 mb-5 text-center">
+                <h1
+                    class="resume-name text-3xl sm:text-4xl font-bold tracking-tight text-gray-950 dark:text-white uppercase">
+                    Muhammad Nadeem
+                </h1>
+                <h2 class="resume-title text-base sm:text-lg font-bold text-red-600 dark:text-red-400 mt-1 mb-2.5">
+                    Senior Software Engineer &amp; Backend Architect
+                </h2>
+
+
+                <div
+                    class="resume-contact-bar flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-1.5 text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-medium">
+                    <span class="inline-flex items-center gap-1.5">
+                        <i class="fas fa-map-marker-alt text-red-600 dark:text-red-400"></i>
+                        <span>Lahore, Pakistan (Global / Remote)</span>
+                    </span>
+                    <span class="resume-contact-separator text-gray-400">•</span>
+                    <a href="tel:+923214062327"
+                        class="inline-flex items-center gap-1 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                        <i class="fas fa-phone text-red-600 dark:text-red-400"></i>
+                        <span>+92 321 4062327</span>
+                    </a>
+                    <span class="resume-contact-separator text-gray-400">•</span>
+                    <a href="mailto:nadeem0199@gmail.com"
+                        class="inline-flex items-center gap-1 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                        <i class="fas fa-envelope text-red-600 dark:text-red-400"></i>
+                        <span>nadeem0199@gmail.com</span>
+                    </a>
+                    <span class="resume-contact-separator text-gray-400">•</span>
+                    <a href="https://www.linkedin.com/in/nadeem0199" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                        <i class="fab fa-linkedin text-red-600 dark:text-red-400"></i>
+                        <span>linkedin.com/in/nadeem0199</span>
+                    </a>
+                    <span class="resume-contact-separator text-gray-400">•</span>
+                    <a href="https://github.com/nadeem0199" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                        <i class="fab fa-github text-red-600 dark:text-red-400"></i>
+                        <span>github.com/nadeem0199</span>
+                    </a>
+                    <span class="resume-contact-separator text-gray-400">•</span>
+                    <a href="https://nadeem0199.github.io" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                        <i class="fas fa-globe text-red-600 dark:text-red-400"></i>
+                        <span>nadeem0199.github.io</span>
+                    </a>
                 </div>
             </header>
 
-            <!-- Summary -->
-            <section class="mb-10 break-inside-avoid">
-                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-4 flex items-center gap-2">
-                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Summary
+            <!-- ==========================================================================
+                 2. PROFESSIONAL SUMMARY
+                 ========================================================================== -->
+            <section class="mb-6">
+                <h3 class="section-heading">
+                    <i class="fas fa-user-tie text-red-600 dark:text-red-400 text-sm"></i>
+                    <span>Professional Summary</span>
                 </h3>
-                <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed text-justify">
-                    I am a skilled Backend-Focused Full Stack Developer with extensive experience in designing, developing, and deploying scalable web applications. My expertise lies in building robust solutions such as logistics platforms, ticket booking systems, SAAS platforms, ERP systems, and e-commerce applications. I specialize in backend development using PHP (Core, Laravel, CodeIgniter) and MySQL, complemented by proficiency in frontend technologies like JavaScript, HTML, CSS, and Bootstrap.
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed text-justify mb-2">
+                    Backend-Focused <strong class="font-semibold text-gray-900 dark:text-white">Full Stack Developer and
+                        Software Architect</strong> with over 8 years of international experience architecting,
+                    engineering, and deploying high-concurrency web platforms, SaaS architectures, enterprise resource
+                    planning (ERP) systems, warehouse management platforms (WMS), and bespoke e-commerce solutions.
+                    Expert in backend design using <strong class="font-semibold text-gray-900 dark:text-white">PHP
+                        (Core, Laravel 8–11, CodeIgniter)</strong> and <strong
+                        class="font-semibold text-gray-900 dark:text-white">MySQL</strong>, complemented by modern
+                    frontend technologies (<strong class="font-semibold text-gray-900 dark:text-white">JavaScript ES6+,
+                        Vue.js, Inertia.js, Tailwind CSS, Bootstrap</strong>).
                 </p>
-                <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed text-justify mt-3">
-                    I have extensive experience integrating and managing numerous third-party APIs, including Shopify, Mollie, Visma, and Bol API. With a proven track record of handling the entire software development lifecycle, I excel in drafting technical specifications, writing efficient code, and deploying production-ready environments. My expertise extends to DevOps and cloud environments, including AWS, Google Cloud, and Docker.
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed text-justify">
+                    Demonstrated success leading distributed engineering teams (Orange Lynx IT, Netherlands) delivering
+                    enterprise systems across Europe. Proven track record managing full software development lifecycles
+                    (SDLC), orchestrating complex third-party API ecosystems (Shopify, Mollie, Stripe, Square, Visma,
+                    Bol.com, ExactOnline, DHL, PostNL), and managing robust DevOps/Cloud deployments on <strong
+                        class="font-semibold text-gray-900 dark:text-white">AWS, Google Cloud, Docker, CI/CD, and Linux
+                        servers</strong>.
                 </p>
             </section>
 
-            <!-- Skills -->
-            <section class="mb-12 break-inside-avoid">
-                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-6 flex items-center gap-2">
-                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Technical Skills
+            <!-- ==========================================================================
+                 3. CORE TECHNICAL SKILLS (Clean Structured Categorization)
+                 ========================================================================== -->
+            <section class="mb-6">
+                <h3 class="section-heading">
+                    <i class="fas fa-layer-group text-red-600 dark:text-red-400 text-sm"></i>
+                    <span>Core Technical Skills</span>
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                    <div class="group">
-                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
-                            <i class="fas fa-server text-accent dark:text-accent-dark w-4"></i> Backend
-                        </h4>
-                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">PHP (Core, CodeIgniter, Laravel), LAMP Stack, WebSockets, Real-time Systems</p>
+
+                <div class="skills-container text-xs sm:text-sm space-y-1.5">
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">Backend &amp;
+                            Architecture:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">PHP (Core, Laravel Framework,
+                            CodeIgniter), LAMP Stack, RESTful APIs, WebSockets, MVC, Repository Pattern, Dependency
+                            Injection, Event-Driven Architecture, OOP.</span>
                     </div>
-                    <div class="group">
-                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
-                            <i class="fas fa-desktop text-accent dark:text-accent-dark w-4"></i> Frontend
-                        </h4>
-                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">HTML5, CSS3, JavaScript (ES6+), jQuery, Bootstrap, Chart.js, Vue.js</p>
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">Frontend
+                            Development:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">JavaScript (ES6+), Vue.js,
+                            Inertia.js, Livewire, HTML5, CSS3, Tailwind CSS, Bootstrap, jQuery, Chart.js, Responsive
+                            UI.</span>
                     </div>
-                    <div class="group">
-                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
-                            <i class="fas fa-plug text-accent dark:text-accent-dark w-4"></i> API Integration
-                        </h4>
-                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">RESTful APIs, Google Maps, Twilio, Square, Visma, Lightspeed, CCVShop, Shopify, API2Cart, Mollie, Stripe, PayPal, DHL, PostNL, Bol API, Exact API</p>
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">API &amp; Payment
+                            Integrations:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">Stripe, Mollie, Square API,
+                            PayPal, Shopify API, API2Cart, Visma, ExactOnline, Lightspeed, CCVShop, Bol.com API, DHL,
+                            PostNL, Twilio, Google Maps Platform.</span>
                     </div>
-                    <div class="group">
-                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
-                            <i class="fas fa-database text-accent dark:text-accent-dark w-4"></i> Database & Design
-                        </h4>
-                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">MySQL, SQL, MVC, Repository Pattern, Dependency Injection, Event Driven Architecture</p>
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">Databases &amp;
+                            Storage:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">MySQL, PostgreSQL, SQL
+                            Optimization, Schema Architecture, Indexing, Data Migrations, Redis / In-Memory
+                            Caching.</span>
                     </div>
-                    <div class="group">
-                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
-                            <i class="fas fa-cloud text-accent dark:text-accent-dark w-4"></i> DevOps & Cloud
-                        </h4>
-                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">AWS, Google Cloud, Docker, Git, CI/CD, Linux Server Management</p>
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">DevOps, Cloud &amp;
+                            Automation:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">AWS (EC2, S3, RDS), Google
+                            Cloud (GCP), Docker Containerization, CI/CD Pipelines, Git / GitHub, Linux (Ubuntu/Debian)
+                            Server Management, Nginx, Selenium Automation, Web Scraping, Chrome Extension
+                            Development.</span>
                     </div>
-                    <div class="group">
-                        <h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-2 text-sm flex items-center gap-2">
-                            <i class="fas fa-tools text-accent dark:text-accent-dark w-4"></i> Other Tools
-                        </h4>
-                        <p class="text-text-muted-light dark:text-text-muted-dark text-sm border-l-2 border-border-light dark:border-border-dark pl-3 group-hover:border-accent dark:group-hover:border-accent-dark transition-colors">Jira, Composer, NPM, Webpack/Vite, Postman</p>
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">IoT &amp; Hardware
+                            Integration:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">Raspberry Pi POS Systems,
+                            Thermal Receipt Printer Service APIs, Fiscal Data Module (FDM) Blackbox Tax
+                            Compliance.</span>
                     </div>
+
+                    <div class="skill-row">
+                        <span class="skill-row-title font-bold text-gray-950 dark:text-white">Tools &amp;
+                            Methodologies:</span>
+                        <span class="skill-row-content text-gray-700 dark:text-gray-300">Agile/Scrum, Jira, Postman,
+                            Composer, NPM, Vite, SQA &amp; Unit Testing, Technical Documentation.</span>
+                    </div>
+
                 </div>
             </section>
 
-            <!-- Experience -->
-            <section class="mb-12">
-                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-8 flex items-center gap-2">
-                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Professional Experience
+            <!-- ==========================================================================
+                 4. PROFESSIONAL WORK EXPERIENCE (Reverse Chronological)
+                 ========================================================================== -->
+            <section class="mb-6">
+                <h3 class="section-heading">
+                    <i class="fas fa-briefcase text-red-600 dark:text-red-400 text-sm"></i>
+                    <span>Professional Work Experience</span>
                 </h3>
 
-                <div class="space-y-10 border-l border-border-light dark:border-border-dark ml-3 pl-8 relative">
-                    
-                    <!-- Job 1 -->
-                    <div class="break-inside-avoid relative">
-                        <div class="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full border-4 border-paper-light dark:border-paper-dark bg-accent dark:bg-accent-dark"></div>
-                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
-                            <h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Team Lead (Software Engineer)</h4>
-                            <span class="text-xs font-mono font-bold text-accent dark:text-accent-dark bg-accent-subtle px-3 py-1 rounded-full">Mar 2019 – Present</span>
+                <div class="space-y-5">
+
+                    <!-- Job 1: Orange Lynx IT -->
+                    <div class="job-entry">
+                        <div class="job-header flex flex-col sm:flex-row sm:items-baseline justify-between">
+                            <h4 class="job-title text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                Senior Software Engineer &amp; Team Lead
+                            </h4>
+                            <span class="job-period text-xs font-mono font-bold text-red-600 dark:text-red-400">
+                                March 2019 – Present
+                            </span>
                         </div>
-                        <div class="flex justify-between items-center mb-4">
-                            <h5 class="text-md font-medium text-text-muted-light dark:text-text-muted-dark">Orange Lynx IT (Remote)</h5>
-                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark"><i class="fas fa-map-marker-alt mr-1"></i> The Hague, Netherlands</span>
+                        <div
+                            class="job-subhead flex flex-wrap justify-between items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5">
+                            <span class="font-semibold text-gray-800 dark:text-gray-200">Orange Lynx IT (Remote)</span>
+                            <span>The Hague, Netherlands</span>
                         </div>
-                        <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark list-disc ml-4 marker:text-gray-400">
-                            <li>Led development teams to deliver high-quality web applications and SaaS solutions for international clients.</li>
-                            <li>Designed and developed SaaS applications, including warehouse management systems and e-commerce platforms.</li>
-                            <li>Integrated shopping platforms and APIs like Visma, ExactOnline, API2Cart, and Mollie.</li>
-                            <li>Led development of POS systems using Raspberry Pi, enabling tax compliance through FDM integration.</li>
-                            <li>Built and maintained RESTful APIs for platforms like DHL, PostNL, and Stripe.</li>
-                            <li>Spearheaded development of a SaaS solution for bol.com investors (sales tracking, profit calculation).</li>
-                            <li>Delivered custom e-commerce solutions improving operational efficiency by 40%.</li>
+                        <ul
+                            class="bullet-list space-y-1 text-xs sm:text-sm text-gray-700 dark:text-gray-300 list-disc ml-4">
+                            <li><strong class="text-gray-900 dark:text-white">SaaS Architecture &amp; Delivery:</strong>
+                                Supervise international engineering teams delivering multi-tenant SaaS platforms,
+                                warehouse management software (WMS), and bespoke e-commerce solutions for clients across
+                                the Netherlands, Belgium, and Germany.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Bol.com Investor SaaS:</strong>
+                                Spearheaded full development of an investor analytics platform for Bol.com merchants,
+                                integrating automated Selenium product telemetry, profit calculation engines, and Stripe
+                                subscription billing.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Brincr Warehouse Management
+                                    System:</strong> Built warehouse management integrations connecting Shopify,
+                                CCVShop, Amazon, ExactOnline, Visma, API2Cart, and Mollie Payment Gateway.</li>
+                            <li><strong class="text-gray-900 dark:text-white">POS Hardware &amp; Tax
+                                    Compliance:</strong> Led development of POS systems using Raspberry Pi with Fiscal
+                                Data Module (FDM) integration, achieving 100% tax office compliance and automated batch
+                                deployment.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Logistics &amp; Carrier APIs:</strong>
+                                Built high-concurrency RESTful APIs for shipping carriers (DHL, PostNL), reducing order
+                                dispatch latency and boosting platform operational efficiency by 40%.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Process Optimization:</strong>
+                                Standardized code reviews, automated CI/CD pipelines, and modular API templates,
+                                reducing integration turnaround times by 30%.</li>
                         </ul>
                     </div>
 
-                    <!-- Job 2 -->
-                    <div class="break-inside-avoid relative">
-                        <div class="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full border-4 border-paper-light dark:border-paper-dark bg-gray-300 dark:bg-gray-700"></div>
-                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
-                            <h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Web Application Developer</h4>
-                            <span class="text-xs font-mono font-bold text-text-muted-light dark:text-text-muted-dark bg-card-light dark:bg-card-dark px-3 py-1 rounded-full border border-border-light dark:border-border-dark">Feb 2017 – Dec 2018</span>
+                    <!-- Job 2: Meticode -->
+                    <div class="job-entry">
+                        <div class="job-header flex flex-col sm:flex-row sm:items-baseline justify-between">
+                            <h4 class="job-title text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                Web Application Developer
+                            </h4>
+                            <span class="job-period text-xs font-mono text-gray-600 dark:text-gray-400">
+                                February 2017 – December 2018
+                            </span>
                         </div>
-                        <div class="flex justify-between items-center mb-4">
-                            <h5 class="text-md font-medium text-text-muted-light dark:text-text-muted-dark">Meticode</h5>
-                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark"><i class="fas fa-map-marker-alt mr-1"></i> Lahore, Pakistan</span>
+                        <div
+                            class="job-subhead flex flex-wrap justify-between items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5">
+                            <span class="font-semibold text-gray-800 dark:text-gray-200">Meticode</span>
+                            <span>Lahore, Pakistan</span>
                         </div>
-                        <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark list-disc ml-4 marker:text-gray-400">
-                            <li>Developed web applications using Core PHP, CodeIgniter, Laravel, and OpenCart.</li>
-                            <li>Created Geo Time Vault (GTV) for photo authentication and transaction proof.</li>
-                            <li>Developed Photo Masking web-based application with facial modification features.</li>
-                            <li>Built APIs for mobile applications and developed WordPress themes.</li>
-                            <li>Completed web-based Social Website (Instagram-like) using Laravel.</li>
-                            <li>Developed "Job portal" for WordPress with custom Admin panel.</li>
+                        <ul
+                            class="bullet-list space-y-1 text-xs sm:text-sm text-gray-700 dark:text-gray-300 list-disc ml-4">
+                            <li><strong class="text-gray-900 dark:text-white">Full-Stack Application
+                                    Development:</strong> Developed web applications using Core PHP, CodeIgniter,
+                                Laravel, OpenCart, and WordPress.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Geo Time Vault (GTV):</strong> Engineered
+                                cryptographic photo authentication and proof-of-transaction web services for Android and
+                                iOS mobile applications.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Healthcare Scheduling Portals:</strong>
+                                Developed 2 specialized healthcare web portals for US client Dr. Senator Saud Anwar,
+                                featuring provider roster scheduling and automated patient appointments.</li>
+                            <li><strong class="text-gray-900 dark:text-white">Web Applications:</strong> Built an
+                                Instagram-style interactive social platform in Laravel and a high-traffic WordPress Job
+                                Portal with customized administrative workflows.</li>
                         </ul>
                     </div>
 
-                    <!-- Job 3 -->
-                    <div class="break-inside-avoid relative">
-                        <div class="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full border-4 border-paper-light dark:border-paper-dark bg-gray-300 dark:bg-gray-700"></div>
-                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
-                            <h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">PHP Developer & SQA</h4>
-                            <span class="text-xs font-mono font-bold text-text-muted-light dark:text-text-muted-dark bg-card-light dark:bg-card-dark px-3 py-1 rounded-full border border-border-light dark:border-border-dark">Nov 2017 – Feb 2017</span>
+                    <!-- Job 3: 4 Tech World -->
+                    <div class="job-entry">
+                        <div class="job-header flex flex-col sm:flex-row sm:items-baseline justify-between">
+                            <h4 class="job-title text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                PHP Developer &amp; SQA Engineer
+                            </h4>
+                            <span class="job-period text-xs font-mono text-gray-600 dark:text-gray-400">
+                                November 2016 – February 2017
+                            </span>
                         </div>
-                        <div class="flex justify-between items-center mb-4">
-                            <h5 class="text-md font-medium text-text-muted-light dark:text-text-muted-dark">4 Tech World</h5>
-                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark"><i class="fas fa-map-marker-alt mr-1"></i> Lahore, Pakistan</span>
+                        <div
+                            class="job-subhead flex flex-wrap justify-between items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5">
+                            <span class="font-semibold text-gray-800 dark:text-gray-200">4 Tech World</span>
+                            <span>Lahore, Pakistan</span>
                         </div>
-                        <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark list-disc ml-4 marker:text-gray-400">
-                            <li>Handled web development using HTML5, CSS, PHP, Ajax, jQuery, and CodeIgniter.</li>
-                            <li>Created mockups and wireframes using pencil and mind mapping tools.</li>
-                            <li>Managed MySQL and Oracle databases.</li>
+                        <ul
+                            class="bullet-list space-y-1 text-xs sm:text-sm text-gray-700 dark:text-gray-300 list-disc ml-4">
+                            <li>Developed database-driven web modules using PHP, Ajax, jQuery, CodeIgniter, and
+                                MySQL/Oracle database engines.</li>
+                            <li>Formulated software requirement specifications (SRS), wireframes, and conducted
+                                automated &amp; manual SQA testing.</li>
                         </ul>
                     </div>
+
+                    <!-- Job 4: Seena Studio -->
+                    <div class="job-entry">
+                        <div class="job-header flex flex-col sm:flex-row sm:items-baseline justify-between">
+                            <h4 class="job-title text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                PHP Software Development Intern
+                            </h4>
+                            <span class="job-period text-xs font-mono text-gray-600 dark:text-gray-400">
+                                August 2015 – November 2016
+                            </span>
+                        </div>
+                        <div
+                            class="job-subhead flex flex-wrap justify-between items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5">
+                            <span class="font-semibold text-gray-800 dark:text-gray-200">Seena Studio</span>
+                            <span>Lahore, Pakistan</span>
+                        </div>
+                        <ul
+                            class="bullet-list space-y-1 text-xs sm:text-sm text-gray-700 dark:text-gray-300 list-disc ml-4">
+                            <li>Implemented RESTful backend APIs for mobile applications connecting with Twilio SMS API,
+                                Apple Push Notifications (APNs), and Google Maps API.</li>
+                        </ul>
+                    </div>
+
                 </div>
             </section>
 
-            <!-- Projects -->
-            <section class="mb-12">
-                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-6 flex items-center gap-2">
-                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Key Projects
+            <!-- ==========================================================================
+                 5. KEY ENTERPRISE PROJECTS
+                 ========================================================================== -->
+            <section class="mb-6">
+                <h3 class="section-heading">
+                    <i class="fas fa-rocket text-red-600 dark:text-red-400 text-sm"></i>
+                    <span>Selected Enterprise Projects</span>
                 </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">
-                            <a href="https://al-hayat.pk/" target="_blank" class="hover:text-accent dark:hover:text-accent-dark transition-colors">Al-Hayat Healthcare</a>
+                <div class="projects-container grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                    <!-- Project 1: Bol.com SAAS -->
+                    <div class="item-card">
+                        <h4 class="project-title font-bold text-gray-950 dark:text-white text-sm sm:text-base">
+                            Bol.com Investor Analytics SaaS
                         </h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Laravel</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">MySQL</span>
+                        <div class="project-tags text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">
+                            Laravel • Vue.js • Selenium • Stripe • Chrome Extension
                         </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Trusted healthcare platform since 2015 (Reg: 05-352-0066-120206D). Features appointment system, schedule management, and dedicated service profiles.</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>Developed appointment system & schedule management for providers.</li>
-                            <li>Created dedicated profiles for each service with admin panel.</li>
-                            <li>Managed integration for 100+ partners.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Moveflex.nl - Logistics Platform</h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Laravel</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Google Maps</span>
-                        </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Architected an "Uber-like" logistics platform with real-time tracking, automated dispatching, and complex pricing algorithms.</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>Real-time tracking & automated dispatching.</li>
-                            <li>Complex pricing algorithms.</li>
-                            <li>High scalability architecture.</li>
+                        <p
+                            class="project-desc text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-1">
+                            Enterprise analytics and margin intelligence suite for Bol.com investors. Features live
+                            product tracking, automated profit calculators, subscription management, and headless
+                            browser automation with Selenium.
+                        </p>
+                        <ul class="bullet-list text-xs text-gray-600 dark:text-gray-300 list-disc ml-4 space-y-0.5">
+                            <li>Engineered real-time scrapers and Chrome extension for instantaneous seller telemetry.
+                            </li>
+                            <li>Integrated Stripe billing for tiered recurring subscription workflows.</li>
                         </ul>
                     </div>
 
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">SAAS Application for Bol.com Investors</h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Laravel</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Vue.js</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Selenium</span>
+                    <!-- Project 2: Moveflex.nl -->
+                    <div class="item-card">
+                        <h4 class="project-title font-bold text-gray-950 dark:text-white text-sm sm:text-base">
+                            Moveflex.nl Logistics Platform
+                        </h4>
+                        <div class="project-tags text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">
+                            Laravel • Google Maps Platform • WebSockets • MySQL
                         </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">SAAS platform for investors to analyze Bol.com business, featuring product tracking and profit calculation.</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>Real-time product tracking using Selenium.</li>
-                            <li>Stripe integration for subscription management.</li>
+                        <p
+                            class="project-desc text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-1">
+                            On-demand logistics management and dispatch system. Includes live vehicle GPS tracking,
+                            automated driver dispatching algorithms, and dynamic multi-variable pricing matrices.
+                        </p>
+                        <ul class="bullet-list text-xs text-gray-600 dark:text-gray-300 list-disc ml-4 space-y-0.5">
+                            <li>Engineered low-latency routing and waypoint optimization algorithms.</li>
+                            <li>Built real-time dispatcher telemetry board handling heavy concurrent traffic.</li>
                         </ul>
                     </div>
 
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Brincr - Warehouse Management</h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">CodeIgniter</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">REST APIs</span>
+                    <!-- Project 3: Brincr WMS -->
+                    <div class="item-card">
+                        <h4 class="project-title font-bold text-gray-950 dark:text-white text-sm sm:text-base">
+                            Brincr SAAS Warehouse Management (WMS)
+                        </h4>
+                        <div class="project-tags text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">
+                            CodeIgniter • REST APIs • Shopify • Mollie • ExactOnline
                         </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Warehouse management SAAS platform integrating multiple e-commerce platforms (Shopify, Amazon, Magento).</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>Developed custom CCVShop app.</li>
-                            <li>Implemented robust API integrations.</li>
+                        <p
+                            class="project-desc text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-1">
+                            Cloud-based Warehouse Management Software integrating multi-channel e-commerce stores
+                            (Shopify, CCVShop, Amazon, Magento) with ERP and payment systems (ExactOnline, Visma,
+                            Mollie).
+                        </p>
+                        <ul class="bullet-list text-xs text-gray-600 dark:text-gray-300 list-disc ml-4 space-y-0.5">
+                            <li>Developed custom CCVShop application extending multi-store sync capabilities.</li>
+                            <li>Automated batch order routing and stock reconciliation across European warehouses.</li>
                         </ul>
                     </div>
 
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Tiqs - POS System</h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Raspberry Pi</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Python/PHP</span>
+                    <!-- Project 4: Al-Hayat Healthcare (Hidden) -->
+                    <div class="item-card" style="display: none !important;">
+                        <h4 class="project-title font-bold text-gray-950 dark:text-white text-sm sm:text-base">
+                            <a href="https://al-hayat.pk/" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                                Al-Hayat Healthcare Portal (al-hayat.pk) <i
+                                    class="fas fa-external-link-alt text-[10px] opacity-70"></i>
+                            </a>
+                        </h4>
+                        <div class="project-tags text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">
+                            Laravel • MySQL • Provider Roster Admin • Bootstrap
                         </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">POS system integrated with Printer services and Fiscal Data Module (FDM) for tax compliance.</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>FDM integration for tax compliance.</li>
-                            <li>Remote server management & automation.</li>
+                        <p
+                            class="project-desc text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-1">
+                            Complete digital medical scheduling infrastructure for a premier healthcare provider
+                            established since 2015. Features doctor roster management, automated appointments, and
+                            dedicated clinical service dashboards.
+                        </p>
+                        <ul class="bullet-list text-xs text-gray-600 dark:text-gray-300 list-disc ml-4 space-y-0.5">
+                            <li>Engineered doctor availability scheduling and instant appointment confirmations.</li>
+                            <li>Integrated clinic profiles and partner management for 100+ healthcare associates.</li>
                         </ul>
                     </div>
 
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Barrierah - Fintech</h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Square API</span>
+                    <!-- Project 5: Tiqs POS System -->
+                    <div class="item-card">
+                        <h4 class="project-title font-bold text-gray-950 dark:text-white text-sm sm:text-base">
+                            Tiqs Raspberry Pi IoT POS &amp; Fiscal FDM
+                        </h4>
+                        <div class="project-tags text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">
+                            Raspberry Pi • Python • PHP • Fiscal Data Module (FDM)
                         </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Seamless integration of Square API for products, inventory, and payments.</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>Square API integration (Payments/Inventory).</li>
-                            <li>Backend performance optimization.</li>
+                        <p
+                            class="project-desc text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-1">
+                            Hardware POS solution utilizing Raspberry Pi with Blackbox Fiscal Data Module (FDM)
+                            integration ensuring compliance with tax authority requirements and thermal receipt
+                            printing.
+                        </p>
+                        <ul class="bullet-list text-xs text-gray-600 dark:text-gray-300 list-disc ml-4 space-y-0.5">
+                            <li>Built server communication APIs and batch automation for rapid device provisioning.</li>
+                            <li>Implemented remote device telemetry and printer fleet monitoring.</li>
                         </ul>
                     </div>
 
-                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg border border-border-light dark:border-border-dark break-inside-avoid hover:border-accent dark:hover:border-accent-dark transition-colors">
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark mb-2">Event Alert System</h4>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Twilio</span>
-                            <span class="text-[10px] font-mono bg-white dark:bg-black/30 px-2 py-1 rounded text-accent dark:text-accent-dark border border-border-light dark:border-border-dark">Google Maps</span>
+                    <!-- Project 6: Barrierah Fintech -->
+                    <div class="item-card">
+                        <h4 class="project-title font-bold text-gray-950 dark:text-white text-sm sm:text-base">
+                            Barrierah Fintech &amp; Square API Integration
+                        </h4>
+                        <div class="project-tags text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">
+                            Square API • PHP • Payments • Cloud Server Migration
                         </div>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3 leading-relaxed">Real-time alert iOS app backend using RSS feeds and crowd-sourced data.</p>
-                        <ul class="list-disc list-outside ml-4 text-text-muted-light dark:text-text-muted-dark text-xs space-y-1 marker:text-gray-400">
-                            <li>Real-time location-based notifications.</li>
-                            <li>Twilio & Google Maps integration.</li>
-                        </ul>
+                        <p
+                            class="project-desc text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-1">
+                            Integrated Square API for products, categories, taxes, inventory synchronization, and secure
+                            checkout processing. Managed server migration for enhanced throughput and low response
+                            times.
+                        </p>
                     </div>
+
                 </div>
             </section>
 
-            <!-- Education -->
-            <section class="mb-10 break-inside-avoid">
-                <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-6 flex items-center gap-2">
-                    <span class="w-8 h-[1px] bg-accent dark:bg-accent-dark"></span> Education
-                </h3>
-                <div class="flex justify-between items-start border-l-2 border-accent dark:border-accent-dark pl-4">
+            <!-- ==========================================================================
+                 6. EDUCATION & LANGUAGES (2-Column Standard Block)
+                 ========================================================================== -->
+            <div class="bottom-two-col grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <!-- Education -->
+                <section>
+                    <h3 class="section-heading">
+                        <i class="fas fa-graduation-cap text-red-600 dark:text-red-400 text-sm"></i>
+                        <span>Education &amp; Academic Background</span>
+                    </h3>
+
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <div class="edu-entry border-l-2 border-red-600 pl-3">
+                            <h4 class="edu-title font-bold text-gray-900 dark:text-white">BS in Computer Science (BS CS)
+                            </h4>
+                            <p class="edu-inst text-gray-600 dark:text-gray-300 font-medium">University of Central
+                                Punjab (UCP)</p>
+                            <span class="text-xs text-gray-500 font-mono">Lahore, Pakistan</span>
+                        </div>
+
+                        <div class="edu-entry border-l-2 border-gray-300 dark:border-gray-700 pl-3">
+                            <h4 class="edu-title font-bold text-gray-900 dark:text-white">Higher Secondary (Intermediate
+                                in CS)</h4>
+                            <p class="edu-inst text-gray-600 dark:text-gray-300">Garrison College for Boys, Nishat
+                                Colony</p>
+                            <span class="text-xs text-gray-500 font-mono">Lahore, Pakistan</span>
+                        </div>
+
+                        <div class="edu-entry border-l-2 border-gray-300 dark:border-gray-700 pl-3">
+                            <h4 class="edu-title font-bold text-gray-900 dark:text-white">Secondary School Certificate
+                                (Matriculation - Science)</h4>
+                            <p class="edu-inst text-gray-600 dark:text-gray-300">FG Abid Majeed High School for Boys, RA
+                                Bazar</p>
+                            <span class="text-xs text-gray-500 font-mono">Lahore Cantt, Pakistan</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Languages & Attributes -->
+                <section>
+                    <h3 class="section-heading">
+                        <i class="fas fa-globe-americas text-red-600 dark:text-red-400 text-sm"></i>
+                        <span>Languages &amp; Attributes</span>
+                    </h3>
+
                     <div>
-                        <h4 class="text-base font-bold text-text-main-light dark:text-text-main-dark">BS Computer Science</h4>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark">University of Central Punjab</p>
+                        <ul class="space-y-1 text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-2.5">
+                            <li
+                                class="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-1">
+                                <span class="font-semibold text-gray-900 dark:text-white">English</span>
+                                <span
+                                    class="font-mono text-xs text-red-600 dark:text-red-400 font-semibold bg-red-50 dark:bg-red-950/40 px-2 py-0.5 rounded">Professional
+                                    Working Proficiency</span>
+                            </li>
+                            <li
+                                class="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-1">
+                                <span class="font-semibold text-gray-900 dark:text-white">Urdu</span>
+                                <span class="font-mono text-xs text-gray-500">Native / Bilingual</span>
+                            </li>
+                            <li
+                                class="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-1">
+                                <span class="font-semibold text-gray-900 dark:text-white">Punjabi</span>
+                                <span class="font-mono text-xs text-gray-500">Native / Bilingual</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span class="font-semibold text-gray-900 dark:text-white">Hindi</span>
+                                <span class="font-mono text-xs text-gray-500">Verbal Communication</span>
+                            </li>
+                        </ul>
+                        <div
+                            class="pt-1.5 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-600 dark:text-gray-400">
+                            <strong class="text-gray-900 dark:text-white">Availability:</strong> Full-Time Remote
+                            (European / US / Global Timezone Overlap).
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ==========================================================================
+                 7. BOTTOM QR CODE VERIFICATION & SCAN CARD
+                 ========================================================================== -->
+            <section
+                class="bottom-qr-card mt-6 flex flex-col sm:flex-row items-center justify-between gap-5 p-4 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 w-full">
+                    <div
+                        class="qr-image-wrapper p-2.5 bg-white rounded-xl border border-gray-200 dark:border-gray-700 shadow-md shrink-0 flex items-center justify-center">
+                        <img src="img/QRCode.png" alt="Scan QR code for online portfolio and verified credentials"
+                            class="w-36 h-36 sm:w-44 sm:h-44 md:w-48 md:h-48 object-contain rounded-lg">
+                    </div>
+                    <div class="bottom-qr-text text-left flex-1">
+                        <h4
+                            class="font-bold text-sm sm:text-base text-gray-950 dark:text-white flex items-center gap-2 uppercase tracking-wide">
+                            <i class="fas fa-qrcode text-red-600 dark:text-red-400 text-base"></i>
+                            <span>Digital Verification &amp; Live Portfolio</span>
+                        </h4>
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+                            Scan with your smartphone camera to access Muhammad Nadeem's interactive portfolio, live
+                            demos, verified source code repositories, and direct contact options.
+                        </p>
+                        <div
+                            class="mt-2 font-mono text-xs text-red-600 dark:text-red-400 font-medium flex flex-wrap items-center gap-2">
+                            <a href="https://nadeem0199.github.io" target="_blank" rel="noopener noreferrer"
+                                class="hover:underline flex items-center gap-1">
+                                <i class="fas fa-globe text-[11px]"></i> https://nadeem0199.github.io
+                            </a>
+                            <span class="text-gray-400">•</span>
+                            <a href="https://www.linkedin.com/in/nadeem0199" target="_blank" rel="noopener noreferrer"
+                                class="hover:underline flex items-center gap-1">
+                                <i class="fab fa-linkedin text-[11px]"></i> linkedin.com/in/nadeem0199
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Interests & Languages -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 break-inside-avoid border-t border-border-light dark:border-border-dark pt-8">
-                <section>
-                    <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-4 flex items-center gap-2">
-                        <i class="fas fa-language text-accent dark:text-accent-dark"></i> Languages
-                    </h3>
-                    <ul class="space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark">
-                        <li class="flex justify-between items-center border-b border-border-light dark:border-border-dark pb-1"><span>English</span> <span class="text-text-main-light dark:text-text-main-dark font-medium">Professional</span></li>
-                        <li class="flex justify-between items-center border-b border-border-light dark:border-border-dark pb-1"><span>Urdu</span> <span class="text-text-main-light dark:text-text-main-dark font-medium">Native</span></li>
-                        <li class="flex justify-between items-center border-b border-border-light dark:border-border-dark pb-1"><span>Punjabi</span> <span class="text-text-main-light dark:text-text-main-dark font-medium">Native</span></li>
-                    </ul>
-                </section>
-                <section>
-                    <h3 class="text-xs font-bold font-mono uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark mb-4 flex items-center gap-2">
-                        <i class="fas fa-heart text-accent dark:text-accent-dark"></i> Interests
-                    </h3>
-                    <ul class="list-disc list-outside ml-5 text-sm text-text-muted-light dark:text-text-muted-dark space-y-1 marker:text-gray-400">
-                        <li>Exploring nature and outdoor experiences</li>
-                        <li>Mechanical and electrical DIY projects</li>
-                        <li>Software innovation & optimization</li>
-                    </ul>
-                </section>
-            </div>
+            <!-- Footer Timestamp -->
+            <footer
+                class="mt-5 pt-2.5 border-t border-gray-200 dark:border-gray-800 text-center text-[10px] text-gray-500 font-mono flex flex-col sm:flex-row justify-between items-center gap-1">
+                <span>Muhammad Nadeem</span>
+                <span>Download: <a href="https://nadeem0199.github.io/resume.html"
+                        class="underline hover:text-red-600">nadeem0199.github.io/resume.html</a></span>
+            </footer>
 
         </article>
     </main>
 
+    <!-- Interactive Scripts (Theme Toggle & Background Matrix Effect) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Theme Toggling Logic
+            // Theme Toggle Logic
             const themeToggleBtn = document.getElementById('theme-toggle');
             const htmlElement = document.documentElement;
-            
-            // Sync icon with current state (set by head script)
-            const isDark = htmlElement.classList.contains('dark');
-            updateToggleIcon(isDark);
+
+            function updateToggleIcon(isDark) {
+                if (!themeToggleBtn) return;
+                const icon = themeToggleBtn.querySelector('i');
+                if (icon) {
+                    if (isDark) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                        icon.style.color = '#f59e0b';
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                        icon.style.color = '';
+                    }
+                }
+            }
+
+            // Init Icon State
+            updateToggleIcon(htmlElement.classList.contains('dark'));
 
             if (themeToggleBtn) {
                 themeToggleBtn.addEventListener('click', () => {
@@ -497,65 +767,48 @@
                 });
             }
 
-            function updateToggleIcon(isDark) {
-                if (!themeToggleBtn) return;
-                const icon = themeToggleBtn.querySelector('i');
-                if (icon) {
-                    if (isDark) {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                    } else {
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
-                    }
-                }
-            }
-
-            // Matrix Rain Effect
+            // Matrix Rain Effect (Screen only)
             const canvas = document.getElementById('matrix-rain');
             if (canvas) {
                 const ctx = canvas.getContext('2d');
                 let width = canvas.width = window.innerWidth;
                 let height = canvas.height = window.innerHeight;
-                
-                const chars = '0123456789ABCDEF@#$%&<>?/|{}[]';
+
+                const chars = '0123456789ABCDEF@#$%&<>?/|{}[]PHP_LARAVEL';
                 const charArray = chars.split('');
                 const fontSize = 14;
                 const columns = width / fontSize;
-                
+
                 const drops = [];
                 for (let i = 0; i < columns; i++) {
                     drops[i] = 1;
                 }
-                
+
                 function draw() {
                     ctx.globalCompositeOperation = 'destination-out';
                     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                     ctx.fillRect(0, 0, width, height);
-                    
+
                     ctx.globalCompositeOperation = 'source-over';
-                    
-                    // Use Laravel Red
-                    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#dc2626';
-                    ctx.fillStyle = accentColor;
+                    ctx.fillStyle = '#dc2626';
                     ctx.font = fontSize + 'px monospace';
-                    
+
                     for (let i = 0; i < drops.length; i++) {
                         const text = charArray[Math.floor(Math.random() * charArray.length)];
                         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                        
+
                         if (drops[i] * fontSize > height && Math.random() > 0.975) {
                             drops[i] = 0;
                         }
                         drops[i]++;
                     }
                 }
-                
+
                 window.addEventListener('resize', () => {
                     width = canvas.width = window.innerWidth;
                     height = canvas.height = window.innerHeight;
                 });
-                
+
                 setInterval(draw, 50);
             }
 
@@ -566,9 +819,9 @@
                 let width = sprinkleCanvas.width = window.innerWidth;
                 let height = sprinkleCanvas.height = window.innerHeight;
 
-                const symbols = ['<?php', '->', '::', '=>', 'use', 'class', 'public', '$this', 'dd()', 'Route', '@if', '{{ }}', '[]', ';'];
+                const symbols = ['<?php', '->', '::', '=>', 'use', 'class', 'public', '$this', 'dd()', 'Route', '@if', '{{ }}', '[]', ';', 'Laravel', 'Docker', 'AWS'];
                 const particles = [];
-                const particleCount = 40;
+                const particleCount = 35;
 
                 class Particle {
                     constructor() {
@@ -579,21 +832,21 @@
                         this.x = Math.random() * width;
                         this.y = Math.random() * height;
                         this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
-                        this.size = Math.random() * 14 + 10;
-                        this.speedX = (Math.random() - 0.5) * 0.5;
-                        this.speedY = (Math.random() - 0.5) * 0.5;
-                        this.opacity = Math.random() * 0.5 + 0.1;
-                        this.fadeSpeed = Math.random() * 0.01 + 0.005;
+                        this.size = Math.random() * 12 + 10;
+                        this.speedX = (Math.random() - 0.5) * 0.4;
+                        this.speedY = (Math.random() - 0.5) * 0.4;
+                        this.opacity = Math.random() * 0.4 + 0.1;
+                        this.fadeSpeed = Math.random() * 0.008 + 0.004;
                         this.fadingOut = Math.random() > 0.5;
                         this.color = this.getRandomColor();
                     }
 
                     getRandomColor() {
                         const colors = [
-                            'rgba(220, 38, 38, ',  // Laravel Red (600)
-                            'rgba(239, 68, 68, ',  // Red-500
-                            'rgba(249, 115, 22, ', // Orange-500
-                            'rgba(255, 255, 255, ' // White
+                            'rgba(220, 38, 38, ',
+                            'rgba(239, 68, 68, ',
+                            'rgba(249, 115, 22, ',
+                            'rgba(148, 163, 184, '
                         ];
                         return colors[Math.floor(Math.random() * colors.length)];
                     }
@@ -611,12 +864,11 @@
                             }
                         } else {
                             this.opacity += this.fadeSpeed;
-                            if (this.opacity >= 0.6) {
+                            if (this.opacity >= 0.5) {
                                 this.fadingOut = true;
                             }
                         }
 
-                        // Wrap around
                         if (this.x > width) this.x = 0;
                         if (this.x < 0) this.x = width;
                         if (this.y > height) this.y = 0;
@@ -653,4 +905,5 @@
         });
     </script>
 </body>
+
 </html>
